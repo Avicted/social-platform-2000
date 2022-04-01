@@ -1,5 +1,6 @@
 import React from 'react'
 import { Footer } from './framework/components/Footer'
+import { Navbar } from './framework/components/Navbar'
 
 interface AppProps {}
 
@@ -7,7 +8,9 @@ interface AppProps {}
 export const App: React.FunctionComponent<AppProps> = ({ children }) => {
     return (
         <>
-            <div className="border-2 border-red-500 container mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+            <Navbar />
+
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
 
             <Footer />
         </>
