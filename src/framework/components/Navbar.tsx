@@ -32,7 +32,7 @@ export const Navbar: React.FunctionComponent<NavbarProps> = () => {
 
     const renderNavItem = (item: NavigationItem): JSX.Element | null => (
         <NavLink
-            className="flex px-4 py-2 text-base font-medium text-gray-500 hover:text-pink-600 hover:bg-gray-100"
+            className="flex px-4 py-2 text-base font-medium text-gray-500 hover:text-pink-600 "
             onClick={() => item.onClick(dispatch, navigate)}
             to={item.link}
         >
@@ -65,7 +65,7 @@ export const Navbar: React.FunctionComponent<NavbarProps> = () => {
                                         <input
                                             id="search"
                                             name="search"
-                                            className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-gray-700 text-gray-300 placeholder-gray-400 focus:outline-none focus:bg-white focus:border-white focus:ring-white focus:text-gray-900 sm:text-sm"
+                                            className="block w-full pl-10 pr-3 py-2 border border-transparent rounded-md leading-5 bg-gray-700 text-gray-300 placeholder-gray-400 focus:outline-none focus:border-white focus:ring-white focus:text-gray-900 sm:text-sm"
                                             placeholder="Search"
                                             type="search"
                                         />

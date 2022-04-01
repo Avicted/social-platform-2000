@@ -21,7 +21,13 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
     }, [])
 
     if (isLoading) {
-        return <h1>Loading posts...</h1>
+        return (
+            <div className="flex justify-center items-center h-full mt-24">
+                <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full" role="status">
+                    <span className="visually-hidden">JavaScript...</span>
+                </div>
+            </div>
+        )
     }
 
     if (error) {
@@ -90,6 +96,10 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
 
     return (
         <>
+            <div className="mb-8 pb-5 pt-12 border-b border-gray-200">
+                <h3 className="text-2xl leading-6 font-medium text-gray-900">Forum posts</h3>
+            </div>
+
             <div className="bg-white shadow overflow-hidden sm:rounded-md">
                 <ul className="divide-y divide-gray-200">
                     {posts.map((post, index) => (
@@ -124,7 +134,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
                     ))}
                 </ul>
             </div>
-            <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            <div className="bg-white px-4 py-3 flex items-center justify-between border border-gray-200 sm:px-6">
                 <div className="flex-1 flex justify-between sm:hidden">
                     <a
                         href="#"

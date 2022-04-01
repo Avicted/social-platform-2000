@@ -7,13 +7,13 @@ interface AppProps {}
 // App wraps all routes e.g. all pages
 export const App: React.FunctionComponent<AppProps> = ({ children }) => {
     return (
-        <>
+        <div className="bg-gray-50">
             <Navbar />
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{children}</div>
 
             <Footer />
-        </>
+        </div>
     )
 }
 
