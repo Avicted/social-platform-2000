@@ -18,12 +18,12 @@ export const Post: React.FunctionComponent<PostProps> = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    if (error || post === undefined) {
-        return <h1>Error: {error}</h1>
+    if (isLoading) {
+        return <h1>Loading post...</h1>
     }
 
-    if (isLoading) {
-        return <h1>Loading posts...</h1>
+    if (error || post === undefined) {
+        return <h1>Error: {error}</h1>
     }
 
     return (
