@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { About } from './pages/about/About'
 import { Provider } from 'react-redux'
 import store from './framework/store'
+import { Post } from './pages/post/Post'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -15,13 +16,14 @@ ReactDOM.render(
             <BrowserRouter>
                 <App>
                     <Routes>
+                        {/* About page */}
                         <Route path="/" element={<About />} />
 
+                        {/* List of forum posts */}
                         <Route path="/forum" element={<Postlist />} />
 
-                        {/* <Route path="/forum:id">
-                        <Post post={posts[0]} />
-                    </Route> */}
+                        {/* A single forum post */}
+                        <Route path="/forum/:id" element={<Post />} />
                     </Routes>
                 </App>
             </BrowserRouter>
