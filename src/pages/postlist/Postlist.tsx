@@ -5,7 +5,8 @@ import { IPost } from '../../models/IPost'
 import { postlistActions } from './actions/PostlistActions'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { NavLink } from 'react-router-dom'
-import { format, formatDistance } from 'date-fns'
+import { formatDistance } from 'date-fns'
+import { CreatePostDialog } from './components/CreatePostDialog'
 
 interface PostlistProps {}
 
@@ -97,12 +98,15 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
 
     return (
         <>
+            <CreatePostDialog />
+
             <div className="mb-8  pb-5 pt-12 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
                 <h3 className="text-2xl leading-6 font-medium text-gray-900">Forum posts</h3>
                 <div className="mt-3 flex sm:mt-0 sm:ml-4">
                     <button
                         type="button"
                         className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                        onClick={() => dispatch(postlistActions.ToggleCreatePostDialog())}
                     >
                         Create post
                     </button>

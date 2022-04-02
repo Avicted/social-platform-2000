@@ -5,3 +5,8 @@ export interface IPost {
     createdDate: string
     updatedDate: string
 }
+
+export interface ICreatePostRequest {
+    title: string
+    content: string
+}

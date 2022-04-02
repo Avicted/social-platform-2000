@@ -8,12 +8,14 @@ interface PostlistState {
     posts: IPost[],
     error: string | undefined
     isLoading: boolean
+    showCreatePostDialog: boolean
 }
 
 const initialState: PostlistState = {
     posts: [],
     error: undefined,
     isLoading: false,
+    showCreatePostDialog: false
 }
 
 export function postlistReducer(state: PostlistState = initialState, action: PostlistActions) {
@@ -35,6 +37,26 @@ export function postlistReducer(state: PostlistState = initialState, action: Pos
                 draft.isLoading = false
                 draft.posts = []
             })
+        case PostlistTypes.ToggleCreatePostDialog:
+            return produce(state, (draft => {
+                draft.showCreatePostDialog = !draft.showCreatePostDialog
+            }))
+
+        case PostlistTypes.CreatePost:
+            return produce(state, (draft => {
+                draft.error = undefined
+                draft.isLoading = true
+            }))
+        case PostlistTypes.CreatePostSuccess:
+            return produce(state, (draft => {
+                draft.error = undefined
+                draft.isLoading = false
+            }))
+        case PostlistTypes.CreatePostError:
+            return produce(state, (draft => {
+                draft.error = action.error
+                draft.isLoading = false
+            }))
 
         default:
             return state
