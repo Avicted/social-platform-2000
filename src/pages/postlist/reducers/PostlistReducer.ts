@@ -27,7 +27,7 @@ export function postlistReducer(state: PostlistState = initialState, action: Pos
             return produce(state, (draft) => {
                 draft.error = undefined
                 draft.isLoading = false
-                draft.posts = action.response.data
+                draft.posts = action.response.result
             })
         case PostlistTypes.GetPostsError:
             return produce(state, (draft) => {

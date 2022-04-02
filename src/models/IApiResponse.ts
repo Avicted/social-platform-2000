@@ -1,7 +1,11 @@
 export interface IApiResponse<T> {
-    error?: string // a single error
-    errors?: { [key: string]: string[] } // form field errors: <field_name: Error string>
-    code?: number
+    isError?: boolean
     message?: string
-    data: T
+    responseException?: {
+        'exceptionMessage': {
+            'title': string,
+            'status': number
+        }
+    }
+    result: T
 }

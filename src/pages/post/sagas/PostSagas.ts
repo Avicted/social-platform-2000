@@ -16,12 +16,14 @@ function* getPostFlow(action: GetPost) {
     yield delay(2000)
 
     try {
-        const response: IApiResponse<IPost> = yield call(forumApi.getPost)
+        const response: IApiResponse<IPost> = yield call(forumApi.getPost, action.postId)
         console.log(response)
 
-        if (response.error) {
-            console.error(response.error)
-            throw new Error(response.error)
+        if (response.isError) {
+            console.error(response.responseException?.exceptionMessage)
+
+            // @Todo(Avic): Fixme -> as unknown as string
+            throw new Error(response.responseException?.exceptionMessage as unknown as string)
         }
 
         yield put(postActions.GetPostSuccess(response))

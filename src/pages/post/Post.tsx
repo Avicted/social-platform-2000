@@ -4,6 +4,7 @@ import { AppState } from '../../framework/store/rootReducer'
 import { IPost } from '../../models/IPost'
 import { postActions } from './actions/PostActions'
 import { Comments } from './components/Comments'
+import { useParams } from 'react-router-dom'
 
 interface PostProps {}
 
@@ -12,10 +13,11 @@ export const Post: React.FunctionComponent<PostProps> = () => {
     const post: IPost | undefined = useSelector((state: AppState) => state.post.post)
     const error: string | undefined = useSelector((state: AppState) => state.post.error)
     const isLoading: boolean = useSelector((state: AppState) => state.post.isLoading)
+    let { postId } = useParams() // Unpacking and retrieve id
 
     // Once the component loads -> run once
     useEffect(() => {
-        dispatch(postActions.GetPost())
+        dispatch(postActions.GetPost(postId as string))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

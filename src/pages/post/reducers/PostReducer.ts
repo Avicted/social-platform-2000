@@ -26,7 +26,7 @@ export function postReducer(state: PostState = initialState, action: PostActions
             return produce(state, (draft) => {
                 draft.error = undefined
                 draft.isLoading = false
-                draft.post = action.response.data
+                draft.post = action.response.result
             })
         case PostTypes.GetPostError:
             return produce(state, (draft) => {

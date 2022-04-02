@@ -23,7 +23,7 @@ ReactDOM.render(
                         <Route path="/forum" element={<Postlist />} />
 
                         {/* A single forum post */}
-                        <Route path="/forum/:id" element={<Post />} />
+                        <Route path="/forum/:postId" element={<Post />} />
                     </Routes>
                 </App>
             </BrowserRouter>

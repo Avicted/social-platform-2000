@@ -21,9 +21,11 @@ function* getPostsFlow(action: GetPosts) {
         const response: IApiResponse<IPost[]> = yield call(forumApi.getPosts)
         console.log(response)
 
-        if (response.error) {
-            console.error(response.error)
-            throw new Error(response.error)
+        if (response.isError) {
+            console.error(response.responseException?.exceptionMessage)
+
+            // @Todo(Avic): Fixme -> as unknown as string
+            throw new Error(response.responseException?.exceptionMessage as unknown as string)
         }
 
         yield put(postlistActions.GetPostsSuccess(response))

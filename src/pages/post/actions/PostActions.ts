@@ -10,6 +10,7 @@ export enum PostTypes {
 
 export interface GetPost extends Action {
     type: PostTypes.GetPost,
+    postId: string
 }
 
 export interface GetPostSuccess extends Action {
@@ -23,8 +24,9 @@ export interface GetPostError extends Action {
 }
 
 export const postActions = {
-    GetPost: (): GetPost => ({
+    GetPost: (postId: string): GetPost => ({
         type: PostTypes.GetPost,
+        postId,
     }),
     GetPostSuccess: (response: IApiResponse<IPost>): GetPostSuccess => ({
         type: PostTypes.GetPostSuccess,
