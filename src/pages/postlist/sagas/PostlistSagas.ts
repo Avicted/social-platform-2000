@@ -15,7 +15,7 @@ export function* getPostsSaga() {
 // Worker saga
 function* getPostsFlow(action: GetPosts) {
     // Simulate API delay
-    yield delay(2000)
+    // yield delay(2000)
 
     try {
         const response: IApiResponse<IPost[]> = yield call(forumApi.getPosts)

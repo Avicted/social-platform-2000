@@ -13,7 +13,7 @@ export function* getPostSaga() {
 // Worker saga
 function* getPostFlow(action: GetPost) {
     // Simulate API delay
-    yield delay(2000)
+    // yield delay(2000)
 
     try {
         const response: IApiResponse<IPost> = yield call(forumApi.getPost, action.postId)

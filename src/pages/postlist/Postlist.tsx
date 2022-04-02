@@ -5,6 +5,7 @@ import { IPost } from '../../models/IPost'
 import { postlistActions } from './actions/PostlistActions'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { NavLink } from 'react-router-dom'
+import { format, formatDistance } from 'date-fns'
 
 interface PostlistProps {}
 
@@ -114,12 +115,19 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
                                                         {post.title}
                                                     </p>
                                                 </div>
-                                                <div className="hidden md:block">
+                                                <div className="text-right hidden md:block">
                                                     <div>
                                                         <p className="text-sm text-gray-900">
-                                                            Posted on{' '}
-                                                            <time dateTime={new Date().toString()}>
-                                                                {new Date().toISOString()}
+                                                            Posted{' '}
+                                                            <time dateTime={post.createdDate}>
+                                                                {formatDistance(
+                                                                    new Date(post.createdDate),
+                                                                    new Date(),
+                                                                    {
+                                                                        includeSeconds: true,
+                                                                        addSuffix: true,
+                                                                    }
+                                                                )}
                                                             </time>
                                                         </p>
                                                     </div>
