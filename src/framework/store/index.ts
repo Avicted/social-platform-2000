@@ -4,8 +4,9 @@ import { compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-import { createPostSaga, getCategoriesSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
+import { createPostSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
 import { getPostSaga } from '../../pages/post/sagas/PostSagas'
+import { getCategoriesSaga } from '../../pages/categorylist/sagas/CategoryListSagas'
 
 declare global {
     interface Window {

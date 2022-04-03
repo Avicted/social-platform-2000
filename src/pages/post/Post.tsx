@@ -11,9 +11,9 @@ interface PostProps {}
 
 export const Post: React.FunctionComponent<PostProps> = () => {
     const dispatch = useDispatch()
-    const post: IPost | undefined = useSelector((state: AppState) => state.post.post)
-    const error: string | undefined = useSelector((state: AppState) => state.post.error)
-    const isLoading: boolean = useSelector((state: AppState) => state.post.isLoading)
+    const post: IPost | undefined = useSelector((state: AppState) => state.posts.post)
+    const error: string | undefined = useSelector((state: AppState) => state.posts.error)
+    const isLoading: boolean = useSelector((state: AppState) => state.posts.isLoading)
     let { postId } = useParams() // Unpacking and retrieve id
 
     // Once the component loads -> run once

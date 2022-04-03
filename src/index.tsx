@@ -9,7 +9,7 @@ import { About } from './pages/about/About'
 import { Provider } from 'react-redux'
 import store from './framework/store'
 import { Post } from './pages/post/Post'
-import { Categorylist } from './pages/categorylist/Categorylist'
+import { CategoryList } from './pages/categorylist/CategoryList'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -21,7 +21,7 @@ ReactDOM.render(
                         <Route path="/" element={<About />} />
 
                         {/* List of forum categories */}
-                        <Route path="/categories" element={<Categorylist />} />
+                        <Route path="/categories" element={<CategoryList />} />
 
                         {/* List of forum posts in a category */}
                         <Route path="/categories/:categoryId" element={<Postlist />} />

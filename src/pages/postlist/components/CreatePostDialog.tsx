@@ -31,7 +31,7 @@ export const CreatePostDialog: React.FunctionComponent<CreatePostDialogProps> = 
     })
 
     const dispatch = useDispatch()
-    const open: boolean = useSelector((state: AppState) => state.postlist.showCreatePostDialog)
+    const open: boolean = useSelector((state: AppState) => state.postList.showCreatePostDialog)
 
     const onSubmit = (post: ICreatePostRequest) => {
         console.log({ info: '[CreatePostDialog]: onSubmit', post })

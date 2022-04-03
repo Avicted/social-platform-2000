@@ -6,18 +6,19 @@ import { NavLink } from 'react-router-dom'
 import { formatDistance } from 'date-fns'
 import { ICategory } from '../../models/ICategory'
 import { postlistActions } from '../postlist/actions/PostlistActions'
+import { categoryListActions } from './actions/CategoryListActions'
 
-interface CategorylistProps {}
+interface CategoryListProps {}
 
-export const Categorylist: React.FunctionComponent<CategorylistProps> = () => {
+export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
     const dispatch = useDispatch()
-    const categories: ICategory[] = useSelector((state: AppState) => state.postlist.categories)
-    const error: string | undefined = useSelector((state: AppState) => state.postlist.error)
-    const isLoading: boolean = useSelector((state: AppState) => state.postlist.isLoading)
+    const categories: ICategory[] = useSelector((state: AppState) => state.categoryList.categories)
+    const error: string | undefined = useSelector((state: AppState) => state.postList.error)
+    const isLoading: boolean = useSelector((state: AppState) => state.postList.isLoading)
 
     // Once the component loads -> run once
     useEffect(() => {
-        dispatch(postlistActions.GetCategories())
+        dispatch(categoryListActions.GetCategories())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

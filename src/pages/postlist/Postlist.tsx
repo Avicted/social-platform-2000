@@ -12,9 +12,9 @@ interface PostlistProps {}
 
 export const Postlist: React.FunctionComponent<PostlistProps> = () => {
     const dispatch = useDispatch()
-    const posts: IPost[] = useSelector((state: AppState) => state.postlist.posts)
-    const error: string | undefined = useSelector((state: AppState) => state.postlist.error)
-    const isLoading: boolean = useSelector((state: AppState) => state.postlist.isLoading)
+    const posts: IPost[] = useSelector((state: AppState) => state.postList.posts)
+    const error: string | undefined = useSelector((state: AppState) => state.postList.error)
+    const isLoading: boolean = useSelector((state: AppState) => state.postList.isLoading)
     let { categoryId } = useParams() // Unpacking and retrieve id
 
     // Once the component loads -> run once
