@@ -9,6 +9,7 @@ import { About } from './pages/about/About'
 import { Provider } from 'react-redux'
 import store from './framework/store'
 import { Post } from './pages/post/Post'
+import { Categorylist } from './pages/categorylist/Categorylist'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -19,11 +20,14 @@ ReactDOM.render(
                         {/* About page */}
                         <Route path="/" element={<About />} />
 
-                        {/* List of forum posts */}
-                        <Route path="/forum" element={<Postlist />} />
+                        {/* List of forum categories */}
+                        <Route path="/categories" element={<Categorylist />} />
+
+                        {/* List of forum posts in a category */}
+                        <Route path="/categories/:categoryId" element={<Postlist />} />
 
                         {/* A single forum post */}
-                        <Route path="/forum/:postId" element={<Post />} />
+                        <Route path="/categories/:categoryId/:postId" element={<Post />} />
                     </Routes>
                 </App>
             </BrowserRouter>

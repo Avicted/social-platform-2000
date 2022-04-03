@@ -1,6 +1,7 @@
-import { Action } from "redux";
-import { IApiResponse } from "../../../models/IApiResponse";
-import { ICreatePostRequest, IPost } from "../../../models/IPost";
+import { Action } from 'redux'
+import { IApiResponse } from '../../../models/IApiResponse'
+import { ICategory } from '../../../models/ICategory'
+import { ICreatePostRequest, IPost } from '../../../models/IPost'
 
 export enum PostlistTypes {
     'GetPosts' = 'Postlist/GetPosts',
@@ -11,15 +12,19 @@ export enum PostlistTypes {
 
     'CreatePost' = 'Postlist/CreatePost',
     'CreatePostSuccess' = 'Postlist/CreatePostSuccess',
-    'CreatePostError' = 'Postlist/CreatePostError'
+    'CreatePostError' = 'Postlist/CreatePostError',
+
+    'GetCategories' = 'Postlist/GetCategories',
+    'GetCategoriesSuccess' = 'Postlist/GetCategoriesSuccess',
+    'GetCategoriesError' = 'Postlist/GetCategoriesError',
 }
 
 export interface GetPosts extends Action {
-    type: PostlistTypes.GetPosts,
+    type: PostlistTypes.GetPosts
 }
 
 export interface GetPostsSuccess extends Action {
-    type: PostlistTypes.GetPostsSuccess,
+    type: PostlistTypes.GetPostsSuccess
     response: IApiResponse<IPost[]>
 }
 
@@ -38,12 +43,26 @@ export interface CreatePost extends Action {
 }
 
 export interface CreatePostSuccess extends Action {
-    type: PostlistTypes.CreatePostSuccess,
+    type: PostlistTypes.CreatePostSuccess
     response: IApiResponse<IPost>
 }
 
 export interface CreatePostError extends Action {
     type: PostlistTypes.CreatePostError
+    error: string
+}
+
+export interface GetCategories extends Action {
+    type: PostlistTypes.GetCategories
+}
+
+export interface GetCategoriesSuccess extends Action {
+    type: PostlistTypes.GetCategoriesSuccess
+    response: IApiResponse<ICategory[]>
+}
+
+export interface GetCategoriesError extends Action {
+    type: PostlistTypes.GetCategoriesError
     error: string
 }
 
@@ -64,15 +83,26 @@ export const postlistActions = {
     }),
     CreatePost: (post: ICreatePostRequest): CreatePost => ({
         type: PostlistTypes.CreatePost,
-        post
+        post,
     }),
     CreatPostSuccess: (response: IApiResponse<IPost>) => ({
         type: PostlistTypes.CreatePostSuccess,
-        response
+        response,
     }),
     CreatePostError: (error: string): CreatePostError => ({
         type: PostlistTypes.CreatePostError,
-        error
+        error,
+    }),
+    GetCategories: (): GetCategories => ({
+        type: PostlistTypes.GetCategories,
+    }),
+    GetCategoriesSuccess: (response: IApiResponse<ICategory[]>): GetCategoriesSuccess => ({
+        type: PostlistTypes.GetCategoriesSuccess,
+        response,
+    }),
+    GetCategoriesError: (error: string) => ({
+        type: PostlistTypes.GetCategoriesError,
+        error,
     }),
 }
 
@@ -84,3 +114,6 @@ export type PostlistActions =
     | CreatePost
     | CreatePostSuccess
     | CreatePostError
+    | GetCategories
+    | GetCategoriesSuccess
+    | GetCategoriesError

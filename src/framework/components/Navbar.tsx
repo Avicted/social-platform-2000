@@ -19,7 +19,7 @@ const navigation: NavigationItem[] = [
     },
     {
         name: 'Forum posts',
-        link: '/forum',
+        link: '/categories',
         onClick: () => {},
     },
 ]

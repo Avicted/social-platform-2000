@@ -1,9 +1,37 @@
 import { IApiResponse } from '../models/IApiResponse'
+import { ICategory } from '../models/ICategory'
 import { ICreatePostRequest, IPost } from '../models/IPost'
 import mockPosts from './mocks/posts.json'
 
-
 export class ForumApi {
+    getCategories = async (): Promise<IApiResponse<ICategory[]> | undefined> => {
+        try {
+            if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
+                // Fetch data from the API
+                let URI: string = `${process.env.REACT_APP_API_BASE_URL}/category`
+
+                const res: Response = await fetch(URI, {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                if (!res.ok) throw res.statusText
+
+                const data: IApiResponse<ICategory[]> = {
+                    ...(await res.json()),
+                }
+
+                return data
+            } else {
+            }
+        } catch (error) {
+            console.error(error)
+            return undefined
+        }
+    }
+
     getPosts = async (): Promise<IApiResponse<IPost[]> | undefined> => {
         try {
             if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
@@ -20,7 +48,7 @@ export class ForumApi {
                 if (!res.ok) throw res.statusText
 
                 const data: IApiResponse<IPost[]> = {
-                    ...await res.json(),
+                    ...(await res.json()),
                 }
 
                 return data
@@ -55,7 +83,7 @@ export class ForumApi {
                 if (!res.ok) throw res.statusText
 
                 const data: IApiResponse<IPost> = {
-                    ...await res.json(),
+                    ...(await res.json()),
                 }
 
                 return data
@@ -63,7 +91,7 @@ export class ForumApi {
                 let post: IPost = mockPosts[0] as unknown as IPost
 
                 const response: IApiResponse<IPost> = {
-                    result: post
+                    result: post,
                 }
 
                 return response
@@ -92,7 +120,7 @@ export class ForumApi {
                 if (!res.ok) throw res.statusText
 
                 const data: IApiResponse<IPost> = {
-                    ...await res.json(),
+                    ...(await res.json()),
                 }
 
                 return data
@@ -100,7 +128,7 @@ export class ForumApi {
                 let post: IPost = mockPosts[0] as unknown as IPost
 
                 const response: IApiResponse<IPost> = {
-                    result: post
+                    result: post,
                 }
 
                 return response

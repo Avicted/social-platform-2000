@@ -4,7 +4,7 @@ import { compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-import { createPostSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
+import { createPostSaga, getCategoriesSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
 import { getPostSaga } from '../../pages/post/sagas/PostSagas'
 
 declare global {
@@ -50,6 +50,7 @@ const store = createStore(persistedReducer, initialState, enhancer)
 sagaMiddleware.run(getPostsSaga)
 sagaMiddleware.run(getPostSaga)
 sagaMiddleware.run(createPostSaga)
+sagaMiddleware.run(getCategoriesSaga)
 
 // export store singleton instance
 export default store

@@ -1,26 +1,23 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../framework/store/rootReducer'
-import { IPost } from '../../models/IPost'
-import { postlistActions } from './actions/PostlistActions'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { formatDistance } from 'date-fns'
-import { CreatePostDialog } from './components/CreatePostDialog'
+import { ICategory } from '../../models/ICategory'
+import { postlistActions } from '../postlist/actions/PostlistActions'
 
-interface PostlistProps {}
+interface CategorylistProps {}
 
-export const Postlist: React.FunctionComponent<PostlistProps> = () => {
+export const Categorylist: React.FunctionComponent<CategorylistProps> = () => {
     const dispatch = useDispatch()
-    const posts: IPost[] = useSelector((state: AppState) => state.postlist.posts)
+    const categories: ICategory[] = useSelector((state: AppState) => state.postlist.categories)
     const error: string | undefined = useSelector((state: AppState) => state.postlist.error)
     const isLoading: boolean = useSelector((state: AppState) => state.postlist.isLoading)
-    let { categoryId } = useParams() // Unpacking and retrieve id
 
     // Once the component loads -> run once
     useEffect(() => {
-        dispatch(postlistActions.GetPosts())
-        // dispatch(postlistActions.GetCategories())
+        dispatch(postlistActions.GetCategories())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -100,45 +97,34 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
 
     return (
         <>
-            <CreatePostDialog />
-
             <div className="mb-8  pb-5 pt-12 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-                <h3 className="text-2xl leading-6 font-medium text-gray-900">Forum posts</h3>
-                <div className="mt-3 flex sm:mt-0 sm:ml-4">
-                    <button
-                        type="button"
-                        className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                        onClick={() => dispatch(postlistActions.ToggleCreatePostDialog())}
-                    >
-                        Create post
-                    </button>
-                </div>
+                <h3 className="text-2xl leading-6 font-medium text-gray-900">Forum Categories</h3>
             </div>
 
-            {posts.length > 0 ? (
+            {categories.length > 0 ? (
                 <div className="bg-white shadow overflow-hidden sm:rounded-md">
                     <ul className="divide-y divide-gray-200">
-                        {posts.map((post, index) => (
-                            <li key={post.postId}>
-                                <NavLink
-                                    to={`/categories/${categoryId}/${post.postId}`}
-                                    className="block hover:bg-gray-50"
-                                >
+                        {categories.map((category, index) => (
+                            <li key={category.categoryId}>
+                                <NavLink to={`/categories/${category.categoryId}`} className="block hover:bg-gray-50">
                                     <div className="flex items-center px-4 py-4 sm:px-6">
                                         <div className="min-w-0 flex-1 flex items-center">
                                             <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                 <div>
-                                                    <p className="text-sm font-medium text-indigo-600 truncate">
-                                                        {post.title}
+                                                    <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                                        {category.posts.length} posts
+                                                    </span>
+                                                    <p className="ml-6 inline-flex text-sm font-medium text-indigo-600 truncate">
+                                                        {category.title}
                                                     </p>
                                                 </div>
                                                 <div className="text-right hidden md:block">
                                                     <div>
                                                         <p className="text-sm text-gray-900">
                                                             Posted{' '}
-                                                            <time dateTime={post.createdDate}>
+                                                            <time dateTime={category.createdDate}>
                                                                 {formatDistance(
-                                                                    new Date(post.createdDate),
+                                                                    new Date(category.createdDate),
                                                                     new Date(),
                                                                     {
                                                                         includeSeconds: true,
@@ -166,7 +152,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
                 </div>
             )}
 
-            {posts.length > 0 && (
+            {categories.length > 0 && (
                 <div className="bg-white px-4 py-3 flex items-center justify-between border border-gray-200 sm:px-6">
                     <div className="flex-1 flex justify-between sm:hidden">
                         <a
@@ -187,7 +173,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
                             <p className="text-sm text-gray-700">
                                 Showing <span className="font-medium">1</span> to{' '}
                                 <span className="font-medium">10</span> of{' '}
-                                <span className="font-medium">{posts.length}</span> results
+                                <span className="font-medium">{categories.length}</span> results
                             </p>
                         </div>
                         <div>{paginationButtons()}</div>
