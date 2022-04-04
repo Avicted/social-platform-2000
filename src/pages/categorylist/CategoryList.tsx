@@ -113,7 +113,7 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
                                             <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
                                                 <div>
                                                     <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                                        {category.posts.length} posts
+                                                        {category.postsCount} posts
                                                     </span>
                                                     <p className="ml-6 inline-flex text-sm font-medium text-indigo-600 truncate">
                                                         {category.title}

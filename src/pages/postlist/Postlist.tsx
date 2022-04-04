@@ -20,7 +20,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
     // Once the component loads -> run once
     useEffect(() => {
         dispatch(postlistActions.GetPosts())
-        // dispatch(postlistActions.GetCategories())
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
