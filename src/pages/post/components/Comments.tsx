@@ -39,12 +39,12 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
     }
 
     const renderComment = (comment: IComment, parentsCount: number): JSX.Element => (
-        <div className="mb-4" style={{ paddingLeft: parentsCount * 20 }}>
-            <div className="border-2 border-gray-200 pl-4 pr-4 pt-2 pb-2 rounded-md">
+        <div className="mb-2" style={{ paddingLeft: parentsCount * 100 }}>
+            <div className="border border-gray-200 pl-3 pr-3 pt-2 pb-2 rounded-lg">
                 <h4 className="text-lg font-bold text-blue-400">{comment.authorName}</h4>
                 <p className="mt-1">{comment.content}</p>
 
-                <p className="mt-3 text-gray-500 text-xs">
+                <p className="mt-3 text-gray-400 text-xs">
                     {formatDistance(new Date(comment.createdDate), new Date(), {
                         includeSeconds: true,
                         addSuffix: true,
@@ -54,6 +54,9 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
         </div>
     )
 
+    // @Continue
+    // @Todo(Avic): There is something odd happening here...
+    // The child comments only intendate 2 levels, not 3 or 4 etc... ???
     const getIntendation = (commentParentId?: number, count: number = 0): number => {
         let id: number | undefined = commentParentId
 
@@ -69,7 +72,8 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
                 id = element.parentCommentId
 
                 if (id) {
-                    getIntendation(element.parentCommentId, count++)
+                    getIntendation(id, count)
+                    count++
                 }
             }
         }
@@ -84,6 +88,10 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
             <>
                 {c.map((comment, index) => {
                     const parentsCount: number = getIntendation(comment.parentCommentId)
+                    console.log({
+                        commentId: comment.commentId,
+                        parentsCount,
+                    })
                     const children: IComment[] = comments.filter((c) => c.parentCommentId === comment.commentId)
 
                     return (
