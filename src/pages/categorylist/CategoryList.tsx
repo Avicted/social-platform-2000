@@ -111,31 +111,29 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
                                     <div className="flex items-center px-4 py-4 sm:px-6">
                                         <div className="min-w-0 flex-1 flex items-center">
                                             <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
-                                                <div>
-                                                    <span className="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                                        {category.postsCount} posts
-                                                    </span>
-                                                    <p className="ml-6 inline-flex text-sm font-medium text-indigo-600 truncate">
+                                                <div className="flex">
+                                                    <p className="flex text-sm font-medium text-indigo-600 truncate">
                                                         {category.title}
                                                     </p>
+                                                    <span className="flex px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                                                        {category.postsCount} posts
+                                                    </span>
                                                 </div>
-                                                <div className="text-right hidden md:block">
+                                                {/* <div className="text-right hidden md:block">
                                                     <div>
                                                         <p className="text-sm text-gray-900">
                                                             Posted{' '}
-                                                            <time dateTime={category.createdDate}>
-                                                                {formatDistance(
-                                                                    new Date(category.createdDate),
-                                                                    new Date(),
-                                                                    {
-                                                                        includeSeconds: true,
-                                                                        addSuffix: true,
-                                                                    }
-                                                                )}
-                                                            </time>
+                                                            {formatDistance(
+                                                                new Date(category.createdDate),
+                                                                new Date(),
+                                                                {
+                                                                    includeSeconds: true,
+                                                                    addSuffix: true,
+                                                                }
+                                                            )}
                                                         </p>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </div>
                                         <div>

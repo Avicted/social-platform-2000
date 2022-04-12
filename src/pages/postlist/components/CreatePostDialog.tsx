@@ -9,6 +9,7 @@ import { postlistActions } from '../actions/PostlistActions'
 interface CreatePostDialogProps {}
 
 type CustomFormData = {
+    categoryId: number
     title: string
     content: string
 }

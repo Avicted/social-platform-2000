@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import { createPostSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
-import { getPostSaga } from '../../pages/post/sagas/PostSagas'
+import { getCommentsSaga, getPostSaga } from '../../pages/post/sagas/PostSagas'
 import { getCategoriesSaga } from '../../pages/categorylist/sagas/CategoryListSagas'
 
 declare global {
@@ -52,6 +52,7 @@ sagaMiddleware.run(getPostsSaga)
 sagaMiddleware.run(getPostSaga)
 sagaMiddleware.run(createPostSaga)
 sagaMiddleware.run(getCategoriesSaga)
+sagaMiddleware.run(getCommentsSaga)
 
 // export store singleton instance
 export default store

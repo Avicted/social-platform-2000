@@ -6,7 +6,7 @@ import { ICreatePostRequest, IPost } from '../../../models/IPost'
 export enum PostlistTypes {
     'GetPosts' = 'Postlist/GetPosts',
     'GetPostsSuccess' = 'Postlist/GetPostsSuccess',
-    'GetPostsError' = 'Postlist/GetPostsGetPostsError',
+    'GetPostsError' = 'Postlist/GetPostsError',
 
     'ToggleCreatePostDialog' = 'Postlist/ToggleCreatePostDialog',
 
@@ -17,6 +17,7 @@ export enum PostlistTypes {
 
 export interface GetPosts extends Action {
     type: PostlistTypes.GetPosts
+    categoryId: number
 }
 
 export interface GetPostsSuccess extends Action {
@@ -49,8 +50,9 @@ export interface CreatePostError extends Action {
 }
 
 export const postlistActions = {
-    GetPosts: (): GetPosts => ({
+    GetPosts: (categoryId: number): GetPosts => ({
         type: PostlistTypes.GetPosts,
+        categoryId,
     }),
     GetPostsSuccess: (response: IApiResponse<IPost[]>): GetPostsSuccess => ({
         type: PostlistTypes.GetPostsSuccess,

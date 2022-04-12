@@ -1,5 +1,6 @@
 export interface IPost {
-    postId: string
+    postId: number
+    categoryId: string
     title: string
     content: string
     createdDate: string
@@ -9,4 +10,11 @@ export interface IPost {
 export interface ICreatePostRequest {
     title: string
     content: string
+    categoryId: number
+}
+
+export interface IUpdatePostRequest {
+    title: string
+    content: string
+    categoryId: string
 }

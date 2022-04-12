@@ -5,3 +5,7 @@ export interface ICategory {
     createdDate: string
     updatedDate: string
 }
+
+export interface IUpdateCategoryRequest {
+    title: string
+}

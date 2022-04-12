@@ -17,7 +17,7 @@ function* getPostsFlow(action: GetPosts) {
     // yield delay(2000)
 
     try {
-        const response: IApiResponse<IPost[]> = yield call(forumApi.getPosts)
+        const response: IApiResponse<IPost[]> = yield call(forumApi.getPosts, action.categoryId)
         console.log(response)
 
         if (response.isError) {
@@ -57,7 +57,7 @@ function* createPostFlow(action: CreatePost) {
 
         yield put(postlistActions.ToggleCreatePostDialog())
 
-        yield put(postlistActions.GetPosts())
+        yield put(postlistActions.GetPosts(action.post.categoryId))
     } catch (error) {
         yield put(postlistActions.CreatePostError(error as string))
     }

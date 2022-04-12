@@ -6,6 +6,7 @@ import { postActions } from './actions/PostActions'
 import { Comments } from './components/Comments'
 import { useParams } from 'react-router-dom'
 import { formatDistance } from 'date-fns'
+import { IComment } from '../../models/IComment'
 
 interface PostProps {}
 
@@ -14,11 +15,16 @@ export const Post: React.FunctionComponent<PostProps> = () => {
     const post: IPost | undefined = useSelector((state: AppState) => state.posts.post)
     const error: string | undefined = useSelector((state: AppState) => state.posts.error)
     const isLoading: boolean = useSelector((state: AppState) => state.posts.isLoading)
+    const isLoadingComments: boolean = useSelector((state: AppState) => state.posts.isLoadingComments)
+    const comments: IComment[] | undefined = useSelector((state: AppState) => state.posts.comments)
     let { postId } = useParams() // Unpacking and retrieve id
 
     // Once the component loads -> run once
     useEffect(() => {
-        dispatch(postActions.GetPost(postId as string))
+        if (postId) {
+            dispatch(postActions.GetPost(parseInt(postId)))
+            dispatch(postActions.GetCommentsInPost(parseInt(postId)))
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -40,21 +46,21 @@ export const Post: React.FunctionComponent<PostProps> = () => {
         <>
             <div className="mb-8 pb-5 pt-12 border-b border-gray-200">
                 <h3 className="text-2xl leading-6 font-medium text-gray-900">{post.title}</h3>
-                <p className="text-sm text-gray-500 mt-2">
-                    Posted{' '}
-                    <time dateTime={post.createdDate}>
+                <div className="text-sm text-gray-500 mt-2">
+                    <p>
+                        Posted{' '}
                         {formatDistance(new Date(post.createdDate), new Date(), {
                             includeSeconds: true,
                             addSuffix: true,
                         })}
-                    </time>
-                </p>
+                    </p>
+                </div>
             </div>
             <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200">
                 <div className="px-4 py-5 sm:p-6">
                     <p>{post.content}</p>
 
-                    <Comments />
+                    <Comments comments={comments} isLoadingComments={isLoadingComments} />
                 </div>
             </div>
         </>

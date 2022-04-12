@@ -19,7 +19,9 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
 
     // Once the component loads -> run once
     useEffect(() => {
-        dispatch(postlistActions.GetPosts())
+        if (categoryId) {
+            dispatch(postlistActions.GetPosts(parseInt(categoryId)))
+        }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
@@ -36,6 +38,10 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
 
     if (error) {
         return <h1>Error: {error}</h1>
+    }
+
+    if (!posts) {
+        return <h1>Error: No posts in category</h1>
     }
 
     const paginationButtons = (): JSX.Element => (
@@ -133,21 +139,13 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
                                                     </p>
                                                 </div>
                                                 <div className="text-right hidden md:block">
-                                                    <div>
-                                                        <p className="text-sm text-gray-900">
-                                                            Posted{' '}
-                                                            <time dateTime={post.createdDate}>
-                                                                {formatDistance(
-                                                                    new Date(post.createdDate),
-                                                                    new Date(),
-                                                                    {
-                                                                        includeSeconds: true,
-                                                                        addSuffix: true,
-                                                                    }
-                                                                )}
-                                                            </time>
-                                                        </p>
-                                                    </div>
+                                                    <p className="text-sm text-gray-900">
+                                                        Posted{' '}
+                                                        {formatDistance(new Date(post.createdDate), new Date(), {
+                                                            includeSeconds: true,
+                                                            addSuffix: true,
+                                                        })}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>

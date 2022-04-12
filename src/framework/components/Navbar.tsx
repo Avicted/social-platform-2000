@@ -32,6 +32,7 @@ export const Navbar: React.FunctionComponent<NavbarProps> = () => {
 
     const renderNavItem = (item: NavigationItem): JSX.Element | null => (
         <NavLink
+            key={item.name}
             className="flex px-4 py-2 text-base font-medium text-gray-500 hover:text-pink-600 "
             onClick={() => item.onClick(dispatch, navigate)}
             to={item.link}
