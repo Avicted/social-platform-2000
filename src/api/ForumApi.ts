@@ -1,6 +1,6 @@
 import { IApiResponse } from '../models/IApiResponse'
 import { ICategory } from '../models/ICategory'
-import { IComment } from '../models/IComment'
+import { CreateCommentDto, IComment } from '../models/IComment'
 import { ICreatePostRequest, IPost } from '../models/IPost'
 import mockPosts from './mocks/posts.json'
 
@@ -106,7 +106,7 @@ export class ForumApi {
     createPost = async (post: ICreatePostRequest): Promise<IApiResponse<IPost | undefined>> => {
         try {
             if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
-                // Fetch data from the API
+                // Post data to the API
                 let URI: string = `${process.env.REACT_APP_API_BASE_URL}/posts`
 
                 const res: Response = await fetch(URI, {
@@ -156,6 +156,36 @@ export class ForumApi {
                 if (!res.ok) throw res.statusText
 
                 const data: IApiResponse<IComment[]> = {
+                    ...(await res.json()),
+                }
+
+                return data
+            }
+            return 'NOT_IMPLEMENTED' as unknown as IApiResponse<undefined>
+        } catch (error) {
+            console.error(error)
+            return error as IApiResponse<undefined>
+        }
+    }
+
+    postComment = async (createCommentDto: CreateCommentDto): Promise<IApiResponse<IComment | undefined>> => {
+        try {
+            if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
+                // Post data to the API
+                let URI: string = `${process.env.REACT_APP_API_BASE_URL}/comments`
+
+                const res: Response = await fetch(URI, {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(createCommentDto),
+                })
+
+                if (!res.ok) throw res.statusText
+
+                const data: IApiResponse<IComment> = {
                     ...(await res.json()),
                 }
 

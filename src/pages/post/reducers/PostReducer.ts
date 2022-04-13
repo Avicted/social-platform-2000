@@ -10,6 +10,7 @@ interface PostState {
     error: string | undefined
     isLoading: boolean
     isLoadingComments: boolean
+    isLoadingPosingComment: boolean
 }
 
 const initialState: PostState = {
@@ -18,6 +19,7 @@ const initialState: PostState = {
     error: undefined,
     isLoading: false,
     isLoadingComments: false,
+    isLoadingPosingComment: false,
 }
 
 export function postReducer(state: PostState = initialState, action: PostActions) {
@@ -39,6 +41,7 @@ export function postReducer(state: PostState = initialState, action: PostActions
                 draft.isLoading = false
                 draft.post = undefined
             })
+
         case PostTypes.GetCommentsInPost:
             return produce(state, (draft) => {
                 draft.error = undefined
@@ -56,6 +59,22 @@ export function postReducer(state: PostState = initialState, action: PostActions
                 draft.error = action.error
                 draft.isLoadingComments = false
                 draft.comments = undefined
+            })
+
+        case PostTypes.PostComment:
+            return produce(state, (draft) => {
+                draft.isLoadingPosingComment = true
+                draft.error = ''
+            })
+        case PostTypes.PostCommentSuccess:
+            return produce(state, (draft) => {
+                draft.isLoadingPosingComment = false
+                draft.error = ''
+            })
+        case PostTypes.PostCommentError:
+            return produce(state, (draft) => {
+                draft.isLoadingPosingComment = false
+                draft.error = action.error
             })
 
         default:

@@ -3,7 +3,7 @@ import { ForumApi } from '../../../api/ForumApi'
 import { IApiResponse } from '../../../models/IApiResponse'
 import { IComment } from '../../../models/IComment'
 import { IPost } from '../../../models/IPost'
-import { GetCommentsInPost, GetPost, postActions, PostTypes } from '../../post/actions/PostActions'
+import { GetCommentsInPost, GetPost, postActions, PostComment, PostTypes } from '../../post/actions/PostActions'
 
 const forumApi = new ForumApi()
 
@@ -39,7 +39,7 @@ export function* getCommentsSaga() {
 // Worker saga
 function* getCommentsFlow(action: GetCommentsInPost) {
     // Simulate API delay
-    // yield delay(2000)
+    yield delay(1000)
 
     try {
         const response: IApiResponse<IComment[]> = yield call(forumApi.getCommentsInPost, action.postId)
@@ -53,5 +53,26 @@ function* getCommentsFlow(action: GetCommentsInPost) {
         yield put(postActions.GetCommentsInPostSuccess(response.result))
     } catch (error) {
         yield put(postActions.GetCommentsInPostError(error as string))
+    }
+}
+
+// Watcher saga
+export function* postCommentSaga() {
+    yield takeLatest(PostTypes.PostComment, postCommentFlow)
+}
+
+// Worker saga
+function* postCommentFlow(action: PostComment) {
+    try {
+        const response: IApiResponse<IComment | undefined> = yield call(forumApi.postComment, action.data)
+
+        if (response.isError || !response.result) {
+            console.error(response.message)
+            throw new Error(response.message)
+        }
+
+        yield put(postActions.PostCommentSuccess(response.result))
+    } catch (error) {
+        yield put(postActions.PostCommentError(error as string))
     }
 }
