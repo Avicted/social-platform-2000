@@ -110,14 +110,16 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
                                 <NavLink to={`/categories/${category.categoryId}`} className="block hover:bg-gray-50">
                                     <div className="flex items-center px-4 py-4 sm:px-6">
                                         <div className="min-w-0 flex-1 flex items-center">
-                                            <div className="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+                                            <div className="min-w-0 flex-1 md:grid md:grid-cols-2 md:gap-4">
                                                 <div className="flex">
+                                                    <div className="w-16 mr-3">
+                                                        <span className="px-3 py-0.5 rounded-full text-sm font-medium bg-pink-100 text-pink-800">
+                                                            {category.postsCount}
+                                                        </span>
+                                                    </div>
                                                     <p className="flex text-sm font-medium text-indigo-600 truncate">
                                                         {category.title}
                                                     </p>
-                                                    <span className="flex px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                                                        {category.postsCount} posts
-                                                    </span>
                                                 </div>
                                                 {/* <div className="text-right hidden md:block">
                                                     <div>
