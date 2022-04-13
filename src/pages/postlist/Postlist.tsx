@@ -41,7 +41,24 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
     }
 
     if (!posts) {
-        return <h1>Error: No posts in category</h1>
+        return (
+            <>
+                {categoryId && <CreatePostDialog categoryId={parseInt(categoryId)} />}
+                <div className="mt-40 text-center">
+                    <h3 className="mt-2 text-lg font-medium text-gray-900">No Posts in this category</h3>
+                    <p className="mt-1 text-sm text-gray-500">Would you like to be the first to post here?</p>
+                    <div className="mt-6">
+                        <button
+                            type="button"
+                            onClick={() => dispatch(postlistActions.ToggleCreatePostDialog())}
+                            className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
+                            Create post
+                        </button>
+                    </div>
+                </div>
+            </>
+        )
     }
 
     const paginationButtons = (): JSX.Element => (
