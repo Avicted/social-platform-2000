@@ -39,7 +39,7 @@ export function* getCommentsSaga() {
 // Worker saga
 function* getCommentsFlow(action: GetCommentsInPost) {
     // Simulate API delay
-    yield delay(1000)
+    // yield delay(1000)
 
     try {
         const response: IApiResponse<IComment[]> = yield call(forumApi.getCommentsInPost, action.postId)
@@ -72,6 +72,9 @@ function* postCommentFlow(action: PostComment) {
         }
 
         yield put(postActions.PostCommentSuccess(response.result))
+
+        // Fetch all comments again
+        yield put(postActions.GetCommentsInPost(action.data.postId))
     } catch (error) {
         yield put(postActions.PostCommentError(error as string))
     }

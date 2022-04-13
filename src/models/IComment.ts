@@ -11,7 +11,7 @@ export interface IComment {
     comments: IComment[]
 }
 
-export interface CreateCommentDto {
+export interface ICreateCommentDto {
     authorName: string
     content: string
     postId: number

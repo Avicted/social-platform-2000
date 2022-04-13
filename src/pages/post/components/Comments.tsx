@@ -72,7 +72,7 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
                     const children: IComment[] = comments.filter((c) => c.parentCommentId === comment.commentId)
 
                     return (
-                        <div key={index}>
+                        <div className="flex flex-col" key={index}>
                             <Comment comment={comment} parentsCount={parentsCount} postId={postId} />
 
                             <div>{children.length > 0 && renderComments(children)}</div>

@@ -1,6 +1,6 @@
 import { Action } from 'redux'
 import { IApiResponse } from '../../../models/IApiResponse'
-import { CreateCommentDto, IComment } from '../../../models/IComment'
+import { ICreateCommentDto, IComment } from '../../../models/IComment'
 import { IPost } from '../../../models/IPost'
 
 export enum PostTypes {
@@ -47,7 +47,7 @@ export interface GetCommentsInPostError extends Action {
 
 export interface PostComment extends Action {
     type: PostTypes.PostComment
-    data: CreateCommentDto
+    data: ICreateCommentDto
 }
 export interface PostCommentSuccess extends Action {
     type: PostTypes.PostCommentSuccess
@@ -83,7 +83,7 @@ export const postActions = {
         type: PostTypes.GetCommentsInPostError,
         error,
     }),
-    PostComment: (data: CreateCommentDto): PostComment => ({
+    PostComment: (data: ICreateCommentDto): PostComment => ({
         type: PostTypes.PostComment,
         data,
     }),

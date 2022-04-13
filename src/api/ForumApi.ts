@@ -1,6 +1,6 @@
 import { IApiResponse } from '../models/IApiResponse'
 import { ICategory } from '../models/ICategory'
-import { CreateCommentDto, IComment } from '../models/IComment'
+import { ICreateCommentDto, IComment } from '../models/IComment'
 import { ICreatePostRequest, IPost } from '../models/IPost'
 import mockPosts from './mocks/posts.json'
 
@@ -168,7 +168,7 @@ export class ForumApi {
         }
     }
 
-    postComment = async (createCommentDto: CreateCommentDto): Promise<IApiResponse<IComment | undefined>> => {
+    postComment = async (createCommentDto: ICreateCommentDto): Promise<IApiResponse<IComment | undefined>> => {
         try {
             if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
                 // Post data to the API
