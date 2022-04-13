@@ -106,7 +106,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
 
     return (
         <>
-            <CreatePostDialog />
+            {categoryId && <CreatePostDialog categoryId={parseInt(categoryId)} />}
 
             <div className="mb-8  pb-5 pt-12 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
                 <h3 className="text-2xl leading-6 font-medium text-gray-900">Forum posts</h3>

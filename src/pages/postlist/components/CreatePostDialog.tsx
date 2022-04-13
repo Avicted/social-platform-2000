@@ -6,7 +6,9 @@ import { AppState } from '../../../framework/store/rootReducer'
 import { ICreatePostRequest } from '../../../models/IPost'
 import { postlistActions } from '../actions/PostlistActions'
 
-interface CreatePostDialogProps {}
+interface CreatePostDialogProps {
+    categoryId: number
+}
 
 type CustomFormData = {
     categoryId: number
@@ -14,7 +16,7 @@ type CustomFormData = {
     content: string
 }
 
-export const CreatePostDialog: React.FunctionComponent<CreatePostDialogProps> = ({}) => {
+export const CreatePostDialog: React.FunctionComponent<CreatePostDialogProps> = ({ categoryId }) => {
     const {
         register,
         handleSubmit,
@@ -28,6 +30,7 @@ export const CreatePostDialog: React.FunctionComponent<CreatePostDialogProps> = 
         defaultValues: {
             title: '',
             content: '',
+            categoryId: categoryId,
         },
     })
 
@@ -36,7 +39,16 @@ export const CreatePostDialog: React.FunctionComponent<CreatePostDialogProps> = 
 
     const onSubmit = (post: ICreatePostRequest) => {
         console.log({ info: '[CreatePostDialog]: onSubmit', post })
-        dispatch(postlistActions.CreatePost(post))
+
+        const { categoryId, title, content } = post
+
+        const data: ICreatePostRequest = {
+            categoryId,
+            title,
+            content,
+        }
+
+        dispatch(postlistActions.CreatePost(data))
     }
 
     return (
