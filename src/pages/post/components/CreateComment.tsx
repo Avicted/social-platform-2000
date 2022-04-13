@@ -122,6 +122,11 @@ export const CreateComment: React.FunctionComponent<CreateCommentProps> = ({
                                 className="p-2 border shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                                 defaultValue={''}
                             />
+                            {errors.comment && (
+                                <p className="text-xs text-red-400 font-bold mt-1 font-mono">
+                                    {errors.comment.message}
+                                </p>
+                            )}
                         </div>
                     </div>
                     <div className="col-span-12 mt-2 flex justify-end">
