@@ -60,7 +60,7 @@ export const Post: React.FunctionComponent<PostProps> = () => {
                 <div className="px-4 py-5 sm:p-6">
                     <p>{post.content}</p>
 
-                    <Comments comments={comments} isLoadingComments={isLoadingComments} />
+                    <Comments comments={comments} isLoadingComments={isLoadingComments} postId={post.postId} />
                 </div>
             </div>
         </>

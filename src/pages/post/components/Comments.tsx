@@ -1,13 +1,14 @@
-import { formatDistance } from 'date-fns'
-import { useState } from 'react'
 import { IComment } from '../../../models/IComment'
+import { Comment } from './Comment'
+import { CreateComment } from './CreateComment'
 
 interface CommentsProps {
     comments: IComment[] | undefined
     isLoadingComments: boolean
+    postId: number
 }
 
-export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isLoadingComments }) => {
+export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isLoadingComments, postId }) => {
     const header = (): JSX.Element => (
         <div className="relative mb-6">
             <div className="absolute inset-0 flex items-center" aria-hidden="true">
@@ -37,31 +38,6 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
             </div>
         )
     }
-
-    const renderComment = (comment: IComment, parentsCount: number): JSX.Element => (
-        <div className="mb-1" style={{ paddingLeft: parentsCount * 20 }}>
-            <div className="border border-gray-200 pl-3 pr-3 pt-2 pb-2 rounded-md">
-                <h4 className="text-sm font-bold text-blue-400">
-                    {comment.authorName}
-                    <p className="ml-3 inline-flex font-medium text-gray-400 text-xs">
-                        {formatDistance(new Date(comment.createdDate), new Date(), {
-                            includeSeconds: true,
-                            addSuffix: true,
-                        })}
-                    </p>
-                </h4>
-                <p className="mt-1 mb-2 text-sm">{comment.content}</p>
-                <div className="">
-                    <button
-                        type="button"
-                        className="inline-flex items-center text-xs font-medium rounded text-gray-500 bg-transparent hover:text-blue-500 hover:underline"
-                    >
-                        reply
-                    </button>
-                </div>
-            </div>
-        </div>
-    )
 
     const getIntendation = (comment: IComment, count: number = 0): number => {
         // There are no parent comments, this is a root comment
@@ -97,7 +73,8 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
 
                     return (
                         <div key={index}>
-                            {renderComment(comment, parentsCount)}
+                            <Comment comment={comment} parentsCount={parentsCount} postId={postId} />
+
                             <div>{children.length > 0 && renderComments(children)}</div>
                         </div>
                     )
@@ -113,6 +90,11 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
             <div className="flex flex-col">
                 {/* Pass the root comments that have no parent */}
                 {renderComments(comments.filter((c) => c.parentCommentId === undefined))}
+            </div>
+            <div className="grid grid-cols-12">
+                <div className="col-span-12 lg:col-span-6 mt-8">
+                    <CreateComment postId={postId} />
+                </div>
             </div>
         </div>
     )
