@@ -39,17 +39,26 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
     }
 
     const renderComment = (comment: IComment, parentsCount: number): JSX.Element => (
-        <div className="mb-2" style={{ paddingLeft: parentsCount * 20 }}>
-            <div className="border border-gray-200 pl-3 pr-3 pt-2 pb-2 rounded-lg">
-                <h4 className="text-lg font-bold text-blue-400">{comment.authorName}</h4>
-                <p className="mt-1">{comment.content}</p>
-
-                <p className="mt-3 text-gray-400 text-xs">
-                    {formatDistance(new Date(comment.createdDate), new Date(), {
-                        includeSeconds: true,
-                        addSuffix: true,
-                    })}
-                </p>
+        <div className="mb-1" style={{ paddingLeft: parentsCount * 20 }}>
+            <div className="border border-gray-200 pl-3 pr-3 pt-2 pb-2 rounded-md">
+                <h4 className="text-sm font-bold text-blue-400">
+                    {comment.authorName}
+                    <p className="ml-3 inline-flex font-medium text-gray-400 text-xs">
+                        {formatDistance(new Date(comment.createdDate), new Date(), {
+                            includeSeconds: true,
+                            addSuffix: true,
+                        })}
+                    </p>
+                </h4>
+                <p className="mt-1 mb-2 text-sm">{comment.content}</p>
+                <div className="">
+                    <button
+                        type="button"
+                        className="inline-flex items-center text-xs font-medium rounded text-gray-500 bg-transparent hover:text-blue-500 hover:underline"
+                    >
+                        reply
+                    </button>
+                </div>
             </div>
         </div>
     )
