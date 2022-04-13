@@ -35,6 +35,11 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
             <div className="mt-24">
                 {header()}
                 <p className="text-gray-700">No comments in this post</p>
+                <div className="grid grid-cols-12">
+                    <div className="col-span-12 lg:col-span-6 mt-8">
+                        <CreateComment postId={postId} />
+                    </div>
+                </div>
             </div>
         )
     }
