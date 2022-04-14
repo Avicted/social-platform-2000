@@ -1,26 +1,37 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppState } from '../../framework/store/rootReducer'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import { NavLink } from 'react-router-dom'
-import { formatDistance } from 'date-fns'
 import { ICategory } from '../../models/ICategory'
-import { postlistActions } from '../postlist/actions/PostlistActions'
 import { categoryListActions } from './actions/CategoryListActions'
+import { ICategoryQuery } from '../../models/ICategoryQuery'
 
 interface CategoryListProps {}
 
 export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
     const dispatch = useDispatch()
     const categories: ICategory[] = useSelector((state: AppState) => state.categoryList.categories)
+    const totalItemsCount: number | undefined = useSelector((state: AppState) => state.categoryList.totalItemsCount)
+    const totalPages: number | undefined = useSelector((state: AppState) => state.categoryList.totalPages)
     const error: string | undefined = useSelector((state: AppState) => state.postList.error)
     const isLoading: boolean = useSelector((state: AppState) => state.postList.isLoading)
 
+    // pageSize:   number
+    // pageNumber: number
+    const [pageNumber, setPageNumber] = useState<number>(1)
+    const [pageSize, setPageSize] = useState<number>(3)
+
     // Once the component loads -> run once
     useEffect(() => {
-        dispatch(categoryListActions.GetCategories())
+        const query: ICategoryQuery = {
+            pageNumber: pageNumber,
+            pageSize: pageSize,
+        }
+
+        dispatch(categoryListActions.GetCategories(query))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [pageNumber])
 
     if (isLoading) {
         return (
@@ -35,66 +46,6 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
     if (error) {
         return <h1>Error: {error}</h1>
     }
-
-    const paginationButtons = (): JSX.Element => (
-        <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-            <a
-                href="#"
-                className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-                <span className="sr-only">Previous</span>
-                <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
-            {/* Current: "z-10 bg-indigo-50 border-indigo-500 text-indigo-600", Default: "bg-white border-gray-300 text-gray-500 hover:bg-gray-50" */}
-            <a
-                href="#"
-                aria-current="page"
-                className="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-            >
-                1
-            </a>
-            <a
-                href="#"
-                className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-            >
-                2
-            </a>
-            <a
-                href="#"
-                className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"
-            >
-                3
-            </a>
-            <span className="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                ...
-            </span>
-            <a
-                href="#"
-                className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 hidden md:inline-flex relative items-center px-4 py-2 border text-sm font-medium"
-            >
-                8
-            </a>
-            <a
-                href="#"
-                className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-            >
-                9
-            </a>
-            <a
-                href="#"
-                className="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-            >
-                10
-            </a>
-            <a
-                href="#"
-                className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-            >
-                <span className="sr-only">Next</span>
-                <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-            </a>
-        </nav>
-    )
 
     return (
         <>
@@ -121,21 +72,6 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
                                                         {category.title}
                                                     </p>
                                                 </div>
-                                                {/* <div className="text-right hidden md:block">
-                                                    <div>
-                                                        <p className="text-sm text-gray-900">
-                                                            Posted{' '}
-                                                            {formatDistance(
-                                                                new Date(category.createdDate),
-                                                                new Date(),
-                                                                {
-                                                                    includeSeconds: true,
-                                                                    addSuffix: true,
-                                                                }
-                                                            )}
-                                                        </p>
-                                                    </div>
-                                                </div> */}
                                             </div>
                                         </div>
                                         <div>
@@ -153,33 +89,36 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
                 </div>
             )}
 
-            {categories.length > 0 && (
-                <div className="bg-white px-4 py-3 flex items-center justify-between border border-gray-200 sm:px-6">
-                    <div className="flex-1 flex justify-between sm:hidden">
-                        <a
-                            href="#"
+            {categories.length > 0 && totalItemsCount && (
+                <nav
+                    className="rounded-b-md shadow-sm bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+                    aria-label="Pagination"
+                >
+                    <div className="hidden sm:block">
+                        <p className="text-sm text-gray-700">
+                            Showing{' '}
+                            <span className="font-medium">{Math.ceil(totalItemsCount / (pageNumber * pageSize))}</span>{' '}
+                            to <span className="font-medium">{}</span> of{' '}
+                            <span className="font-medium">{totalItemsCount}</span> results
+                        </p>
+                    </div>
+                    <div className="flex-1 flex justify-between sm:justify-end">
+                        <button
+                            disabled={pageNumber <= 1 ? true : false}
+                            onClick={() => setPageNumber(pageNumber - 1)}
                             className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                         >
                             Previous
-                        </a>
-                        <a
-                            href="#"
+                        </button>
+                        <button
+                            disabled={pageNumber === totalPages ? true : false}
+                            onClick={() => setPageNumber(pageNumber + 1)}
                             className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
                         >
                             Next
-                        </a>
+                        </button>
                     </div>
-                    <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                        <div>
-                            <p className="text-sm text-gray-700">
-                                Showing <span className="font-medium">1</span> to{' '}
-                                <span className="font-medium">10</span> of{' '}
-                                <span className="font-medium">{categories.length}</span> results
-                            </p>
-                        </div>
-                        <div>{paginationButtons()}</div>
-                    </div>
-                </div>
+                </nav>
             )}
         </>
     )

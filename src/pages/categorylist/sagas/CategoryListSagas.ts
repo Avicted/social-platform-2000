@@ -16,7 +16,7 @@ function* getCategoriesFlow(action: GetCategories) {
     try {
         // Simulate API delay
         // yield delay(2000)
-        const response: IApiResponse<ICategory[]> = yield call(forumApi.getCategories)
+        const response: IApiResponse<ICategory[]> = yield call(forumApi.getCategories, action.query)
         console.log(response)
 
         if (response.isError) {

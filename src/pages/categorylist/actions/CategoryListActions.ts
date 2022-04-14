@@ -1,6 +1,7 @@
 import { Action } from 'redux'
 import { IApiResponse } from '../../../models/IApiResponse'
 import { ICategory } from '../../../models/ICategory'
+import { ICategoryQuery } from '../../../models/ICategoryQuery'
 
 export enum CategoryListTypes {
     'GetCategories' = 'CategoryList/GetCategories',
@@ -10,6 +11,7 @@ export enum CategoryListTypes {
 
 export interface GetCategories extends Action {
     type: CategoryListTypes.GetCategories
+    query: ICategoryQuery
 }
 
 export interface GetCategoriesSuccess extends Action {
@@ -23,8 +25,9 @@ export interface GetCategoriesError extends Action {
 }
 
 export const categoryListActions = {
-    GetCategories: (): GetCategories => ({
+    GetCategories: (query: ICategoryQuery): GetCategories => ({
         type: CategoryListTypes.GetCategories,
+        query
     }),
     GetCategoriesSuccess: (response: IApiResponse<ICategory[]>): GetCategoriesSuccess => ({
         type: CategoryListTypes.GetCategoriesSuccess,

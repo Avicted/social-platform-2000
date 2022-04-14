@@ -8,4 +8,10 @@ export interface IApiResponse<T> {
         }
     }
     result: T
+    pagination?: {
+        currentPage: number
+        pageSize: number
+        totalItemsCount: number
+        totalPages: number
+    }
 }
