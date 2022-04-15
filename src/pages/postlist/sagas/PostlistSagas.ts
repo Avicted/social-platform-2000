@@ -2,6 +2,7 @@ import { call, delay, put, takeLatest } from 'redux-saga/effects'
 import { ForumApi } from '../../../api/ForumApi'
 import { IApiResponse } from '../../../models/IApiResponse'
 import { IPost } from '../../../models/IPost'
+import { IPostQuery } from '../../../models/IPostQuery'
 import { CreatePost, GetPosts, postlistActions, PostlistTypes } from '../actions/PostlistActions'
 
 const forumApi = new ForumApi()
@@ -17,7 +18,7 @@ function* getPostsFlow(action: GetPosts) {
     // yield delay(2000)
 
     try {
-        const response: IApiResponse<IPost[]> = yield call(forumApi.getPosts, action.categoryId)
+        const response: IApiResponse<IPost[]> = yield call(forumApi.getPosts, action.categoryId, action.query)
         console.log(response)
 
         if (response.isError) {
@@ -57,7 +58,12 @@ function* createPostFlow(action: CreatePost) {
 
         yield put(postlistActions.ToggleCreatePostDialog())
 
-        yield put(postlistActions.GetPosts(action.post.categoryId))
+        const query: IPostQuery = {
+            pageNumber: 1,
+            pageSize: 10,
+        }
+
+        yield put(postlistActions.GetPosts(action.post.categoryId, query))
     } catch (error) {
         yield put(postlistActions.CreatePostError(error as string))
     }

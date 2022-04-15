@@ -3,6 +3,7 @@ import { ICategory } from '../models/ICategory'
 import { ICategoryQuery } from '../models/ICategoryQuery'
 import { ICreateCommentDto, IComment } from '../models/IComment'
 import { ICreatePostRequest, IPost } from '../models/IPost'
+import { IPostQuery } from '../models/IPostQuery'
 import mockPosts from './mocks/posts.json'
 
 export class ForumApi {
@@ -14,8 +15,6 @@ export class ForumApi {
                 const searchParams = new URLSearchParams()
                 searchParams.set('PageSize', pageSize.toString())
                 searchParams.set('PageNumber', pageNumber.toString())
-
-
 
                 // Fetch data from the API
                 let URI: string = `${process.env.REACT_APP_API_BASE_URL}/categories?${searchParams.toString()}`
@@ -42,11 +41,19 @@ export class ForumApi {
         }
     }
 
-    getPosts = async (categoryId: number): Promise<IApiResponse<IPost[]> | undefined> => {
+    getPosts = async (categoryId: number, query: IPostQuery): Promise<IApiResponse<IPost[]> | undefined> => {
         try {
             if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
+                const { pageSize, pageNumber } = query
+
+                const searchParams = new URLSearchParams()
+                searchParams.set('PageSize', pageSize.toString())
+                searchParams.set('PageNumber', pageNumber.toString())
+
                 // Fetch data from the API
-                let URI: string = `${process.env.REACT_APP_API_BASE_URL}/categories/${categoryId}/posts`
+                let URI: string = `${
+                    process.env.REACT_APP_API_BASE_URL
+                }/categories/${categoryId}/posts?${searchParams.toString()}`
 
                 const res: Response = await fetch(URI, {
                     headers: {

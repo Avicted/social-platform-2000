@@ -21,14 +21,14 @@ export const Pagination: React.FunctionComponent<PaginationProps> = ({
 
     return (
         <nav
-            className="rounded-b-md shadow-sm bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
+            className="pt-8 rounded-b-md shadow-sm bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
             aria-label="Pagination"
         >
             <div className="hidden sm:block">
                 <p className="text-sm text-gray-700">
                     Showing <span className="font-medium">{Math.ceil(pageNumber * pageSize - pageSize) + 1}</span> to{' '}
                     <span className="font-medium">
-                        {pageNumber * pageSize - 1 === totalItemsCount ? totalItemsCount : pageNumber * pageSize}
+                        {pageNumber * pageSize - 1 >= totalItemsCount ? totalItemsCount : pageNumber * pageSize}
                     </span>{' '}
                     of <span className="font-medium">{totalItemsCount}</span> results
                 </p>

@@ -2,6 +2,7 @@ import { Action } from 'redux'
 import { IApiResponse } from '../../../models/IApiResponse'
 import { ICategory } from '../../../models/ICategory'
 import { ICreatePostRequest, IPost } from '../../../models/IPost'
+import { IPostQuery } from '../../../models/IPostQuery'
 
 export enum PostlistTypes {
     'GetPosts' = 'Postlist/GetPosts',
@@ -18,6 +19,7 @@ export enum PostlistTypes {
 export interface GetPosts extends Action {
     type: PostlistTypes.GetPosts
     categoryId: number
+    query: IPostQuery
 }
 
 export interface GetPostsSuccess extends Action {
@@ -50,9 +52,10 @@ export interface CreatePostError extends Action {
 }
 
 export const postlistActions = {
-    GetPosts: (categoryId: number): GetPosts => ({
+    GetPosts: (categoryId: number, query: IPostQuery): GetPosts => ({
         type: PostlistTypes.GetPosts,
         categoryId,
+        query,
     }),
     GetPostsSuccess: (response: IApiResponse<IPost[]>): GetPostsSuccess => ({
         type: PostlistTypes.GetPostsSuccess,

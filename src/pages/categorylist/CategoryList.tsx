@@ -18,10 +18,8 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
     const error: string | undefined = useSelector((state: AppState) => state.postList.error)
     const isLoading: boolean = useSelector((state: AppState) => state.postList.isLoading)
 
-    // pageSize:   number
-    // pageNumber: number
     const [pageNumber, setPageNumber] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(10)
+    const pageSize: number = 10
 
     // Once the component loads -> run once
     useEffect(() => {
@@ -83,21 +81,20 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
                             </li>
                         ))}
                     </ul>
+                    <Pagination
+                        pageNumber={pageNumber}
+                        pageSize={pageSize}
+                        totalPages={totalPages}
+                        totalItemsCount={totalItemsCount}
+                        onNextPage={() => setPageNumber(pageNumber + 1)}
+                        onPreviousPage={() => setPageNumber(pageNumber - 1)}
+                    />
                 </div>
             ) : (
                 <div>
                     <p>No posts found</p>
                 </div>
             )}
-
-            <Pagination
-                pageNumber={pageNumber}
-                pageSize={pageSize}
-                totalPages={totalPages}
-                totalItemsCount={totalItemsCount}
-                onNextPage={() => setPageNumber(pageNumber + 1)}
-                onPreviousPage={() => setPageNumber(pageNumber - 1)}
-            />
         </>
     )
 }
