@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom'
 import { ICategory } from '../../models/ICategory'
 import { categoryListActions } from './actions/CategoryListActions'
 import { ICategoryQuery } from '../../models/ICategoryQuery'
+import { Pagination } from '../../shared/components/Pagination'
 
 interface CategoryListProps {}
 
@@ -20,7 +21,7 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
     // pageSize:   number
     // pageNumber: number
     const [pageNumber, setPageNumber] = useState<number>(1)
-    const [pageSize, setPageSize] = useState<number>(3)
+    const [pageSize, setPageSize] = useState<number>(10)
 
     // Once the component loads -> run once
     useEffect(() => {
@@ -89,37 +90,14 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
                 </div>
             )}
 
-            {categories.length > 0 && totalItemsCount && (
-                <nav
-                    className="rounded-b-md shadow-sm bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
-                    aria-label="Pagination"
-                >
-                    <div className="hidden sm:block">
-                        <p className="text-sm text-gray-700">
-                            Showing{' '}
-                            <span className="font-medium">{Math.ceil(totalItemsCount / (pageNumber * pageSize))}</span>{' '}
-                            to <span className="font-medium">{}</span> of{' '}
-                            <span className="font-medium">{totalItemsCount}</span> results
-                        </p>
-                    </div>
-                    <div className="flex-1 flex justify-between sm:justify-end">
-                        <button
-                            disabled={pageNumber <= 1 ? true : false}
-                            onClick={() => setPageNumber(pageNumber - 1)}
-                            className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                        >
-                            Previous
-                        </button>
-                        <button
-                            disabled={pageNumber === totalPages ? true : false}
-                            onClick={() => setPageNumber(pageNumber + 1)}
-                            className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                        >
-                            Next
-                        </button>
-                    </div>
-                </nav>
-            )}
+            <Pagination
+                pageNumber={pageNumber}
+                pageSize={pageSize}
+                totalPages={totalPages}
+                totalItemsCount={totalItemsCount}
+                onNextPage={() => setPageNumber(pageNumber + 1)}
+                onPreviousPage={() => setPageNumber(pageNumber - 1)}
+            />
         </>
     )
 }
