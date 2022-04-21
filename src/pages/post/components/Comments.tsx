@@ -79,7 +79,6 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
                     return (
                         <div className="flex flex-col" key={index}>
                             <Comment comment={comment} parentsCount={parentsCount} postId={postId} />
-
                             <div>{children.length > 0 && renderComments(children)}</div>
                         </div>
                     )
@@ -94,7 +93,7 @@ export const Comments: React.FunctionComponent<CommentsProps> = ({ comments, isL
 
             <div className="flex flex-col">
                 {/* Pass the root comments that have no parent */}
-                {renderComments(comments.filter((c) => c.parentCommentId === undefined))}
+                {renderComments(comments.filter((c) => !c.parentCommentId))}
             </div>
             <div className="grid grid-cols-12">
                 <div className="col-span-12 lg:col-span-6 mt-8">
