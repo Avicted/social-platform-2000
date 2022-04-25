@@ -1,11 +1,38 @@
-import { call, delay, put, takeLatest } from 'redux-saga/effects'
+import { call, delay, put, takeLatest, takeLeading } from 'redux-saga/effects'
 import { ForumApi } from '../../../api/ForumApi'
 import { IApiResponse } from '../../../models/IApiResponse'
+import { ICategory } from '../../../models/ICategory'
 import { IPost } from '../../../models/IPost'
 import { IPostQuery } from '../../../models/IPostQuery'
 import { CreatePost, GetPosts, postlistActions, PostlistTypes } from '../actions/PostlistActions'
 
 const forumApi = new ForumApi()
+
+// Watcher saga
+export function* getCategoryNameSaga() {
+    yield takeLatest(PostlistTypes.GetPosts, getCategoryNameFlow)
+}
+
+// Worker saga
+function* getCategoryNameFlow(action: GetPosts) {
+    try {
+        const response: IApiResponse<ICategory> = yield call(forumApi.getCategoryById, action.categoryId)
+        console.log(response)
+
+        if (response.isError) {
+            console.error(response.responseException?.exceptionMessage)
+
+            // @Todo(Avic): Fixme -> as unknown as string
+            throw new Error(response.responseException?.exceptionMessage as unknown as string)
+        }
+
+        yield put(postlistActions.GetCategoryTitleSuccess(response.result))
+
+        // Once we have the posts
+    } catch (error) {
+        yield put(postlistActions.GetPostsError(error as string))
+    }
+}
 
 // Watcher saga
 export function* getPostsSaga() {
@@ -14,9 +41,7 @@ export function* getPostsSaga() {
 
 // Worker saga
 function* getPostsFlow(action: GetPosts) {
-    // Simulate API delay
-    // yield delay(2000)
-
+    // Get the posts in this action.categoryId
     try {
         const response: IApiResponse<IPost[]> = yield call(forumApi.getPosts, action.categoryId, action.query)
         console.log(response)
@@ -29,6 +54,8 @@ function* getPostsFlow(action: GetPosts) {
         }
 
         yield put(postlistActions.GetPostsSuccess(response))
+
+        // Once we have the posts
     } catch (error) {
         yield put(postlistActions.GetPostsError(error as string))
     }
@@ -42,8 +69,6 @@ export function* createPostSaga() {
 // Worker saga
 function* createPostFlow(action: CreatePost) {
     try {
-        // Simulate API delay
-        // yield delay(2000)
         const response: IApiResponse<IPost[]> = yield call(forumApi.createPost, action.post)
         console.log(response)
 

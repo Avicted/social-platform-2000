@@ -6,6 +6,7 @@ import { ICreateCommentDto, IComment } from '../models/IComment'
 import { ILoginRequest } from '../models/ILoginRequest'
 import { ICreatePostRequest, IPost } from '../models/IPost'
 import { IPostQuery } from '../models/IPostQuery'
+import { IRegisterRequest } from '../models/IRegisterRequest'
 import { IUser } from '../models/IUser'
 import mockPosts from './mocks/posts.json'
 
@@ -19,6 +20,7 @@ window.fetch = async (...args) => {
     console.log(`======== request interceptor ========`)
 
     const user = store.getState().login.user
+
     // Add the Bearer token
     if (user && config) {
         console.log(`Adding the Bearer token to the request Authorization header`)
@@ -50,6 +52,36 @@ window.fetch = async (...args) => {
 }
 
 export class ForumApi {
+    register = async (registerRequest: IRegisterRequest): Promise<IApiResponse<any> | undefined> => {
+        try {
+            if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
+                // Post data to the API
+                let URI: string = `${process.env.REACT_APP_API_BASE_URL}/authentication/register`
+
+                const res: Response = await fetch(URI, {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(registerRequest),
+                })
+
+                if (!res.ok) throw res.statusText
+
+                const data: IApiResponse<any> = {
+                    ...(await res.json()),
+                }
+
+                return data
+            } else {
+            }
+        } catch (error) {
+            console.error(error)
+            return undefined
+        }
+    }
+
     login = async (loginRequest: ILoginRequest): Promise<IApiResponse<IUser> | undefined> => {
         try {
             if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
@@ -275,6 +307,34 @@ export class ForumApi {
                 if (!res.ok) throw res.statusText
 
                 const data: IApiResponse<IComment> = {
+                    ...(await res.json()),
+                }
+
+                return data
+            }
+            return 'NOT_IMPLEMENTED' as unknown as IApiResponse<undefined>
+        } catch (error) {
+            console.error(error)
+            return error as IApiResponse<undefined>
+        }
+    }
+
+    getCategoryById = async (categoryId: number): Promise<IApiResponse<ICategory | undefined>> => {
+        try {
+            if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
+                // Fetch data from the API
+                let URI: string = `${process.env.REACT_APP_API_BASE_URL}/categories/${categoryId}`
+
+                const res: Response = await fetch(URI, {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                })
+
+                if (!res.ok) throw res.statusText
+
+                const data: IApiResponse<ICategory> = {
                     ...(await res.json()),
                 }
 

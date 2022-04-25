@@ -4,10 +4,11 @@ import { compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
-import { createPostSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
+import { createPostSaga, getCategoryNameSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
 import { getCommentsSaga, getPostSaga, postCommentSaga } from '../../pages/post/sagas/PostSagas'
 import { getCategoriesSaga } from '../../pages/categorylist/sagas/CategoryListSagas'
 import { loginSaga, logoutSaga } from '../../pages/login/sagas/LoginSagas'
+import { registerUserSaga } from '../../pages/register/sagas/RegisterSagas'
 
 declare global {
     interface Window {
@@ -60,6 +61,8 @@ sagaMiddleware.run(getCommentsSaga)
 sagaMiddleware.run(postCommentSaga)
 sagaMiddleware.run(loginSaga)
 sagaMiddleware.run(logoutSaga)
+sagaMiddleware.run(registerUserSaga)
+sagaMiddleware.run(getCategoryNameSaga)
 
 // export store singleton instance
 export default store

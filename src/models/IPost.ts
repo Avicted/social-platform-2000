@@ -3,6 +3,7 @@ export interface IPost {
     categoryId: string
     title: string
     content: string
+    commentsCount: number
     createdDate: string
     updatedDate: string
 }

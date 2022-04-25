@@ -14,6 +14,7 @@ import { Home } from './pages/home/Home'
 import { Login } from './pages/login/Login'
 import { Profile } from './pages/profile/Profile'
 import { PersistGate } from 'redux-persist/integration/react'
+import { Register } from './pages/register/Register'
 
 ReactDOM.render(
     <React.StrictMode>
@@ -27,6 +28,9 @@ ReactDOM.render(
 
                             {/* About page */}
                             <Route path="/about" element={<About />} />
+
+                            {/* Register page */}
+                            <Route path="/register" element={<Register />} />
 
                             {/* Login page */}
                             <Route path="/login" element={<Login />} />

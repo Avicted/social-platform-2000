@@ -9,6 +9,7 @@ import { formatDistance } from 'date-fns'
 import { CreatePostDialog } from './components/CreatePostDialog'
 import { Pagination } from '../../shared/components/Pagination'
 import { IPostQuery } from '../../models/IPostQuery'
+import store from '../../framework/store'
 
 interface PostlistProps {}
 
@@ -19,6 +20,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
     const totalPages: number | undefined = useSelector((state: AppState) => state.postList.totalPages)
     const error: string | undefined = useSelector((state: AppState) => state.postList.error)
     const isLoading: boolean = useSelector((state: AppState) => state.postList.isLoading)
+    const categoryTitle: string | undefined = useSelector((state: AppState) => state.postList.parentCategory?.title)
 
     let { categoryId } = useParams() // Unpacking and retrieve id
 
@@ -59,7 +61,9 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
                 {categoryId && <CreatePostDialog categoryId={parseInt(categoryId)} />}
 
                 <div className="mt-40 text-center">
-                    <h3 className="mt-2 text-lg font-medium text-gray-900">No Posts in this category</h3>
+                    <h3 className="mt-2 text-lg font-medium text-gray-900">
+                        No Posts in the category <span className="text-pink-600">{categoryTitle}</span>
+                    </h3>
                     <p className="mt-1 text-sm text-gray-500">Would you like to be the first to post here?</p>
                     <div className="mt-6">
                         <button
@@ -80,7 +84,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
             {categoryId && <CreatePostDialog categoryId={parseInt(categoryId)} />}
 
             <div className="mb-8  pb-5 pt-12 border-b border-gray-200 sm:flex sm:items-center sm:justify-between">
-                <h3 className="text-2xl leading-6 font-medium text-gray-900">Forum posts</h3>
+                <h3 className="text-2xl leading-6 font-medium text-gray-900">{categoryTitle}</h3>
                 <div className="mt-3 flex sm:mt-0 sm:ml-4">
                     <button
                         type="button"

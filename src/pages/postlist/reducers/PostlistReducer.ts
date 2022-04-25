@@ -6,6 +6,7 @@ import { PostListActions, PostlistTypes } from '../actions/PostlistActions'
 // State definition
 interface PostListState {
     posts: IPost[]
+    parentCategory: ICategory | undefined
     totalItemsCount: number | undefined
     totalPages: number | undefined
     error: string | undefined
@@ -15,6 +16,7 @@ interface PostListState {
 
 const initialState: PostListState = {
     posts: [],
+    parentCategory: undefined,
     totalItemsCount: undefined,
     totalPages: undefined,
     error: undefined,
@@ -67,6 +69,25 @@ export function postlistReducer(state: PostListState = initialState, action: Pos
             return produce(state, (draft) => {
                 draft.error = action.error
                 draft.isLoading = false
+            })
+
+        case PostlistTypes.GetCategoryTitle:
+            return produce(state, (draft) => {
+                draft.error = undefined
+                draft.isLoading = true
+                draft.parentCategory = undefined
+            })
+        case PostlistTypes.GetCategoryTitleSuccess:
+            return produce(state, (draft) => {
+                draft.error = undefined
+                draft.isLoading = false
+                draft.parentCategory = action.category
+            })
+        case PostlistTypes.GetCategoryTitleError:
+            return produce(state, (draft) => {
+                draft.error = action.error
+                draft.isLoading = false
+                draft.parentCategory = undefined
             })
 
         default:

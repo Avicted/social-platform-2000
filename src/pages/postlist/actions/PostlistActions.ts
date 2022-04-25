@@ -14,6 +14,11 @@ export enum PostlistTypes {
     'CreatePost' = 'Postlist/CreatePost',
     'CreatePostSuccess' = 'Postlist/CreatePostSuccess',
     'CreatePostError' = 'Postlist/CreatePostError',
+
+    // @Todo(Avic): GetParentCategory -> change
+    'GetCategoryTitle' = 'PostList/GetCategoryTitle',
+    'GetCategoryTitleSuccess' = 'PostList/GetCategoryTitleSuccess',
+    'GetCategoryTitleError' = 'PostList/GetCategoryTitleError',
 }
 
 export interface GetPosts extends Action {
@@ -51,6 +56,19 @@ export interface CreatePostError extends Action {
     error: string
 }
 
+export interface GetCategoryTitle extends Action {
+    type: PostlistTypes.GetCategoryTitle
+    categoryId: number
+}
+export interface GetCategoryTitleSuccess extends Action {
+    type: PostlistTypes.GetCategoryTitleSuccess
+    category: ICategory
+}
+export interface GetCategoryTitleError extends Action {
+    type: PostlistTypes.GetCategoryTitleError
+    error: string
+}
+
 export const postlistActions = {
     GetPosts: (categoryId: number, query: IPostQuery): GetPosts => ({
         type: PostlistTypes.GetPosts,
@@ -80,6 +98,18 @@ export const postlistActions = {
         type: PostlistTypes.CreatePostError,
         error,
     }),
+    GetCategoryTitle: (categoryId: number): GetCategoryTitle => ({
+        type: PostlistTypes.GetCategoryTitle,
+        categoryId,
+    }),
+    GetCategoryTitleSuccess: (category: ICategory): GetCategoryTitleSuccess => ({
+        type: PostlistTypes.GetCategoryTitleSuccess,
+        category,
+    }),
+    GetCategoryTitleError: (error: string): GetCategoryTitleError => ({
+        type: PostlistTypes.GetCategoryTitleError,
+        error,
+    }),
 }
 
 export type PostListActions =
@@ -90,3 +120,6 @@ export type PostListActions =
     | CreatePost
     | CreatePostSuccess
     | CreatePostError
+    | GetCategoryTitle
+    | GetCategoryTitleSuccess
+    | GetCategoryTitleError
