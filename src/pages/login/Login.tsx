@@ -43,8 +43,8 @@ export const Login: React.FunctionComponent<LoginProps> = ({}) => {
         dispatch(loginActions.Login(data))
     }
 
-    if (error) {
-        return <h1>Error: {error}</h1>
+    if (error && error.length > 0) {
+        return <h1>Error: </h1>
     }
 
     return (

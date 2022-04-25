@@ -7,7 +7,7 @@ export const Home: React.FunctionComponent<HomeProps> = ({}) => {
                 <h3 className="text-2xl leading-6 font-medium text-gray-900">Home</h3>
             </div>
 
-            <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200"></div>
+            <div className="bg-white overflow-hidden shadow rounded-lg divide-y divide-gray-200 p-8">Welcome home</div>
         </>
     )
 }

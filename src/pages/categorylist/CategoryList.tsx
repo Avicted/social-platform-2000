@@ -42,8 +42,8 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
         )
     }
 
-    if (error) {
-        return <h1>Error: {error}</h1>
+    if (error !== undefined) {
+        return <h1>Error: </h1>
     }
 
     return (

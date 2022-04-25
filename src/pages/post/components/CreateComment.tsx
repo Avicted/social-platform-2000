@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppState } from '../../../framework/store/rootReducer'
 import { ICreateCommentDto } from '../../../models/IComment'
+import { IUser } from '../../../models/IUser'
 import { postActions } from '../actions/PostActions'
 
 interface CreateCommentProps {
@@ -24,9 +26,12 @@ export const CreateComment: React.FunctionComponent<CreateCommentProps> = ({
 }) => {
     const dispatch = useDispatch()
     const [show, setShow] = useState<boolean>(showByDefault || false)
+    const user: IUser | undefined = useSelector((state: AppState) => state.login.user)
+
     const {
         handleSubmit,
         register,
+        setValue,
         formState: { errors, isValid },
     } = useForm<FormData>({
         mode: 'all',
@@ -41,6 +46,12 @@ export const CreateComment: React.FunctionComponent<CreateCommentProps> = ({
             comment: '',
         },
     })
+
+    useEffect(() => {
+        if (user) {
+            setValue('authorName', user.username, { shouldValidate: true })
+        }
+    }, [user])
 
     const onSubmit = (newComment: FormData) => {
         console.log({ info: '[CreateComment]: onSubmit', newComment })
@@ -78,34 +89,9 @@ export const CreateComment: React.FunctionComponent<CreateCommentProps> = ({
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="grid grid-cols-12">
-                    <div className="col-span-7">
-                        <label htmlFor="username" className="block text-xs font-medium text-gray-700">
-                            Username
-                        </label>
-                        <div className="mt-1 col-span-5">
-                            <input
-                                {...register('authorName', {
-                                    required: 'Username is required',
-                                    maxLength: {
-                                        value: 16,
-                                        message: 'Username max length is 16',
-                                    },
-                                })}
-                                type="text"
-                                name="authorName"
-                                id="authorName"
-                                className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            />
-                            {errors.authorName && (
-                                <p className="text-xs text-red-400 font-bold mt-1 font-mono">
-                                    {errors.authorName.message}
-                                </p>
-                            )}
-                        </div>
-                    </div>
                     <div className="mt-4 col-span-12">
                         <label htmlFor="comment" className="block text-xs font-medium text-gray-700">
-                            Add your comment
+                            Add your comment as <span className="text-purple-500 font-bold">{user?.username}</span>
                         </label>
                         <div className="mt-1">
                             <textarea
