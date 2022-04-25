@@ -2,13 +2,16 @@ import { Disclosure } from '@headlessui/react'
 import { SearchIcon } from '@heroicons/react/solid'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { NavLink } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { loginActions } from '../../pages/login/actions/LoginActions'
+import { AppState } from '../store/rootReducer'
 
 interface NavigationItem {
     name: string
     link: string
+    requireAuth: boolean
+    hideToAuthenticatedUser?: boolean
     onClick: (...params: any) => void
 }
 
@@ -16,26 +19,40 @@ const navigation: NavigationItem[] = [
     {
         name: 'Home',
         link: '/',
+        requireAuth: false,
         onClick: () => {},
     },
     {
         name: 'About',
         link: '/about',
+        requireAuth: false,
         onClick: () => {},
     },
     {
         name: 'Forum',
         link: '/categories',
+        requireAuth: false,
         onClick: () => {},
     },
     {
         name: 'Login',
         link: '/login',
+        hideToAuthenticatedUser: true,
+        requireAuth: false,
+        onClick: () => {},
+    },
+    {
+        name: 'Register',
+        link: '/register',
+        hideToAuthenticatedUser: true,
+        requireAuth: false,
         onClick: () => {},
     },
     {
         name: 'Logout',
         link: '/login',
+        requireAuth: true,
+
         onClick: (dispatch) => {
             dispatch(loginActions.Logout())
         },
@@ -43,6 +60,7 @@ const navigation: NavigationItem[] = [
     {
         name: 'Profile',
         link: '/profile',
+        requireAuth: true,
         onClick: () => {},
     },
 ]
@@ -52,17 +70,28 @@ interface NavbarProps {}
 export const Navbar: React.FunctionComponent<NavbarProps> = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const isLoggedIn: boolean = useSelector((state: AppState) => state.login.user !== undefined)
 
-    const renderNavItem = (item: NavigationItem): JSX.Element | null => (
-        <NavLink
-            key={item.name}
-            className="flex px-4 py-2 text-base font-medium text-gray-500 hover:text-pink-600 "
-            onClick={() => item.onClick(dispatch, navigate)}
-            to={item.link}
-        >
-            {item.name}
-        </NavLink>
-    )
+    const renderNavItem = (item: NavigationItem): JSX.Element | null => {
+        const navLink = (
+            <NavLink
+                key={item.name}
+                className="flex px-4 py-2 text-base font-medium text-gray-500 hover:text-pink-600 "
+                onClick={() => item.onClick(dispatch, navigate)}
+                to={item.link}
+            >
+                {item.name}
+            </NavLink>
+        )
+
+        if (item.requireAuth && isLoggedIn) {
+            return navLink
+        } else if (item.requireAuth && !isLoggedIn) {
+            return null
+        } else if (item.hideToAuthenticatedUser && isLoggedIn) return null
+
+        return navLink
+    }
 
     return (
         <Disclosure as="nav" className="bg-gray-800">

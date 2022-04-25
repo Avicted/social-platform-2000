@@ -1,4 +1,5 @@
 import produce from 'immer'
+import store from '../../../framework/store'
 import { IUser } from '../../../models/IUser'
 import { LoginActions, LoginTypes } from '../actions/LoginActions'
 

@@ -26,7 +26,7 @@ function* loginFlow(action: Login) {
 
         yield put(loginActions.LoginSuccessful(response.result))
 
-        // window.location.pathname = ''
+        window.location.pathname = '/profile'
     } catch (error) {
         yield put(loginActions.LoginError(error as string))
     }

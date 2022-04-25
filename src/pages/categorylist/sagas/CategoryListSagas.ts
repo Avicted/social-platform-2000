@@ -1,4 +1,4 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { call, delay, put, takeLatest } from 'redux-saga/effects'
 import { ForumApi } from '../../../api/ForumApi'
 import { IApiResponse } from '../../../models/IApiResponse'
 import { ICategory } from '../../../models/ICategory'
@@ -15,7 +15,8 @@ export function* getCategoriesSaga() {
 function* getCategoriesFlow(action: GetCategories) {
     try {
         // Simulate API delay
-        // yield delay(2000)
+        // yield delay(3000)
+
         const response: IApiResponse<ICategory[]> = yield call(forumApi.getCategories, action.query)
         console.log(response)
 

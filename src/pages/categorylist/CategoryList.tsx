@@ -16,7 +16,7 @@ export const CategoryList: React.FunctionComponent<CategoryListProps> = () => {
     const totalItemsCount: number | undefined = useSelector((state: AppState) => state.categoryList.totalItemsCount)
     const totalPages: number | undefined = useSelector((state: AppState) => state.categoryList.totalPages)
     const error: string | undefined = useSelector((state: AppState) => state.postList.error)
-    const isLoading: boolean = useSelector((state: AppState) => state.postList.isLoading)
+    const isLoading: boolean = useSelector((state: AppState) => state.categoryList.isLoading)
 
     const [pageNumber, setPageNumber] = useState<number>(1)
     const pageSize: number = 10

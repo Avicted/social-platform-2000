@@ -57,6 +57,7 @@ export const Postlist: React.FunctionComponent<PostlistProps> = () => {
         return (
             <>
                 {categoryId && <CreatePostDialog categoryId={parseInt(categoryId)} />}
+
                 <div className="mt-40 text-center">
                     <h3 className="mt-2 text-lg font-medium text-gray-900">No Posts in this category</h3>
                     <p className="mt-1 text-sm text-gray-500">Would you like to be the first to post here?</p>
