@@ -4,6 +4,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { loginActions } from '../../pages/login/actions/LoginActions'
 
 interface NavigationItem {
     name: string
@@ -31,6 +32,13 @@ const navigation: NavigationItem[] = [
         name: 'Login',
         link: '/login',
         onClick: () => {},
+    },
+    {
+        name: 'Logout',
+        link: '/login',
+        onClick: (dispatch) => {
+            dispatch(loginActions.Logout())
+        },
     },
     {
         name: 'Profile',

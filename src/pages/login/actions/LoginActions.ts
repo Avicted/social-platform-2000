@@ -6,6 +6,8 @@ export enum LoginTypes {
     'Login' = 'Login/Login',
     'LoginSuccessful' = 'Login/LoginSuccessful',
     'LoginError' = 'Login/LoginError',
+
+    'Logout' = 'Login/Logout',
 }
 
 export interface Login extends Action {
@@ -23,6 +25,10 @@ export interface LoginError extends Action {
     error: string
 }
 
+export interface Logout extends Action {
+    type: LoginTypes.Logout
+}
+
 export const loginActions = {
     Login: (payload: ILoginRequest): Login => ({
         type: LoginTypes.Login,
@@ -36,6 +42,9 @@ export const loginActions = {
         type: LoginTypes.LoginError,
         error,
     }),
+    Logout: (): Logout => ({
+        type: LoginTypes.Logout,
+    }),
 }
 
-export type LoginActions = Login | LoginSuccessful | LoginError
+export type LoginActions = Login | LoginSuccessful | LoginError | Logout

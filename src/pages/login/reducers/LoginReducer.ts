@@ -35,6 +35,13 @@ export function loginReducer(state: LoginState = initialState, action: LoginActi
                 draft.user = undefined
             })
 
+        case LoginTypes.Logout:
+            return produce(state, (draft) => {
+                draft.error = undefined
+                draft.isLoading = false
+                draft.user = undefined
+            })
+
         default:
             return state
     }

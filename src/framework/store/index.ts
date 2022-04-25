@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 import { createPostSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
 import { getCommentsSaga, getPostSaga, postCommentSaga } from '../../pages/post/sagas/PostSagas'
 import { getCategoriesSaga } from '../../pages/categorylist/sagas/CategoryListSagas'
-import { loginSaga } from '../../pages/login/sagas/LoginSagas'
+import { loginSaga, logoutSaga } from '../../pages/login/sagas/LoginSagas'
 
 declare global {
     interface Window {
@@ -59,6 +59,7 @@ sagaMiddleware.run(getCategoriesSaga)
 sagaMiddleware.run(getCommentsSaga)
 sagaMiddleware.run(postCommentSaga)
 sagaMiddleware.run(loginSaga)
+sagaMiddleware.run(logoutSaga)
 
 // export store singleton instance
 export default store

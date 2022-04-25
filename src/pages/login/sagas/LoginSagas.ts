@@ -2,7 +2,7 @@ import { call, delay, put, takeLatest } from 'redux-saga/effects'
 import { ForumApi } from '../../../api/ForumApi'
 import { IApiResponse } from '../../../models/IApiResponse'
 import { IUser } from '../../../models/IUser'
-import { Login, loginActions, LoginTypes } from '../actions/LoginActions'
+import { Login, loginActions, LoginTypes, Logout } from '../actions/LoginActions'
 
 const forumApi = new ForumApi()
 
@@ -30,4 +30,13 @@ function* loginFlow(action: Login) {
     } catch (error) {
         yield put(loginActions.LoginError(error as string))
     }
+}
+
+// Watcher saga
+export function* logoutSaga() {
+    yield takeLatest(LoginTypes.Logout, logoutFlow)
+}
+
+function* logoutFlow(action: Logout) {
+    // Logout buissness logic
 }
