@@ -2,11 +2,12 @@ import { createStore, applyMiddleware } from 'redux'
 import rootReducer, { AppState } from './rootReducer'
 import { compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
-import { persistReducer } from 'redux-persist'
+import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
 import { createPostSaga, getPostsSaga } from '../../pages/postlist/sagas/PostlistSagas'
 import { getCommentsSaga, getPostSaga, postCommentSaga } from '../../pages/post/sagas/PostSagas'
 import { getCategoriesSaga } from '../../pages/categorylist/sagas/CategoryListSagas'
+import { loginSaga } from '../../pages/login/sagas/LoginSagas'
 
 declare global {
     interface Window {
@@ -29,18 +30,21 @@ const middlewares = [sagaMiddleware]
 // compose enhancers
 const enhancer = composeEnhancers(applyMiddleware(...middlewares))
 
-export const persistStore = {
+export const persistConfig = {
     key: 'root',
     storage: storage,
+    whitelist: ['login'],
 }
 
-const persistedReducer = persistReducer<AppState>(persistStore, rootReducer)
+const persistedReducer = persistReducer<AppState>(persistConfig, rootReducer)
 
 // rehydrate state on app start
 const initialState = {}
 
 // create store
 const store = createStore(persistedReducer, initialState, enhancer)
+
+export const persistor = persistStore(store)
 
 // @Note(Victor): Remember to manually register new watcher sagas here
 // @Note(Victor): Normally.. This would be automated by generating:
@@ -54,6 +58,7 @@ sagaMiddleware.run(createPostSaga)
 sagaMiddleware.run(getCategoriesSaga)
 sagaMiddleware.run(getCommentsSaga)
 sagaMiddleware.run(postCommentSaga)
+sagaMiddleware.run(loginSaga)
 
 // export store singleton instance
 export default store

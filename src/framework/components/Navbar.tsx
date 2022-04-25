@@ -13,13 +13,28 @@ interface NavigationItem {
 
 const navigation: NavigationItem[] = [
     {
-        name: 'About',
+        name: 'Home',
         link: '/',
+        onClick: () => {},
+    },
+    {
+        name: 'About',
+        link: '/about',
         onClick: () => {},
     },
     {
         name: 'Forum',
         link: '/categories',
+        onClick: () => {},
+    },
+    {
+        name: 'Login',
+        link: '/login',
+        onClick: () => {},
+    },
+    {
+        name: 'Profile',
+        link: '/profile',
         onClick: () => {},
     },
 ]

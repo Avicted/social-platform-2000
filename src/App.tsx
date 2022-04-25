@@ -2,6 +2,8 @@ import React from 'react'
 import { Footer } from './framework/components/Footer'
 import { Navbar } from './framework/components/Navbar'
 
+
+
 interface AppProps {}
 
 // App wraps all routes e.g. all pages

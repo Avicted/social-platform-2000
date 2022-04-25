@@ -1,12 +1,85 @@
+import store from '../framework/store'
 import { IApiResponse } from '../models/IApiResponse'
 import { ICategory } from '../models/ICategory'
 import { ICategoryQuery } from '../models/ICategoryQuery'
 import { ICreateCommentDto, IComment } from '../models/IComment'
+import { ILoginRequest } from '../models/ILoginRequest'
 import { ICreatePostRequest, IPost } from '../models/IPost'
 import { IPostQuery } from '../models/IPostQuery'
+import { IUser } from '../models/IUser'
 import mockPosts from './mocks/posts.json'
 
+const { fetch: originalFetch } = window
+
+// Global request interceptor
+window.fetch = async (...args) => {
+    let [resource, config] = args
+
+    // request interceptor starts
+    console.log(`======== request interceptor ========`)
+
+    const user = store.getState().login.user
+    // Add the Bearer token
+    if (user && config) {
+        console.log(`Adding the Bearer token to the request Authorization header`)
+
+        const requestHeaders: HeadersInit = new Headers()
+        requestHeaders.set('Authorization', `Bearer ${user.accessToken}`)
+        requestHeaders.set('Accept', 'application/json')
+        requestHeaders.set('Content-Type', 'application/json')
+
+        config.headers = requestHeaders
+    }
+
+    // request interceptor ends
+    let response = await originalFetch(resource, config)
+
+    // Global error handling
+    if (!response.ok && response.status === 404) {
+        // 404 error handling
+        return Promise.reject(response)
+    }
+    if (!response.ok && response.status === 401) {
+        // 404 error handling
+        window.location.pathname = 'login'
+        return Promise.reject(response)
+    }
+
+    // response interceptor here
+    return response
+}
+
 export class ForumApi {
+    login = async (loginRequest: ILoginRequest): Promise<IApiResponse<IUser> | undefined> => {
+        try {
+            if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
+                // Post data to the API
+                let URI: string = `${process.env.REACT_APP_API_BASE_URL}/authentication/login`
+
+                const res: Response = await fetch(URI, {
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    method: 'POST',
+                    body: JSON.stringify(loginRequest),
+                })
+
+                if (!res.ok) throw res.statusText
+
+                const data: IApiResponse<IUser> = {
+                    ...(await res.json()),
+                }
+
+                return data
+            } else {
+            }
+        } catch (error) {
+            console.error(error)
+            return undefined
+        }
+    }
+
     getCategories = async (query: ICategoryQuery): Promise<IApiResponse<ICategory[]> | undefined> => {
         try {
             if (process.env.REACT_APP_USE_LIVE_DATA_API === 'true') {
