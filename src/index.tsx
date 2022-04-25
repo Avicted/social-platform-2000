@@ -13,10 +13,11 @@ import { Home } from './pages/home/Home'
 import { Login } from './pages/login/Login'
 import { Profile } from './pages/profile/Profile'
 import { PersistGate } from 'redux-persist/integration/react'
-
 import { createRoot } from 'react-dom/client'
+
 const container = document.getElementById('root')
 const root = createRoot(container!) // createRoot(container!) if you use TypeScript
+
 root.render(
     <React.StrictMode>
         <Provider store={store}>
