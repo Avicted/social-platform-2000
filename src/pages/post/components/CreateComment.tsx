@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import { AppState } from '../../../framework/store/rootReducer'
 import { ICreateCommentDto } from '../../../models/IComment'
 import { IUser } from '../../../models/IUser'
@@ -80,6 +81,20 @@ export const CreateComment: React.FunctionComponent<CreateCommentProps> = ({
             >
                 Comment
             </button>
+        )
+    }
+
+    if (!user) {
+        return (
+            <div className="pl-3 pr-3 pt-2 pb-2 rounded-md border">
+                <p className="font-md mb-2 mt-2 font-bold text-gray-600">
+                    You need to{' '}
+                    <NavLink className="inline-flex text-pink-500 hover:text-pink-600" to={'/login'}>
+                        Login
+                    </NavLink>{' '}
+                    to comment
+                </p>
+            </div>
         )
     }
 
