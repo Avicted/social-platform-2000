@@ -50,6 +50,7 @@ export const Register: React.FunctionComponent<RegisterProps> = ({}) => {
 
     return (
         <>
+            {isLoading && <div className="Loading">LOADING..</div>}
             <div className="mb-8 pb-5 pt-12 border-b border-gray-200">
                 <h3 className="text-2xl leading-6 font-medium text-gray-900">Register</h3>
             </div>
@@ -107,16 +108,6 @@ export const Register: React.FunctionComponent<RegisterProps> = ({}) => {
                             >
                                 Register
                             </button>
-                            {isLoading && (
-                                <div className="flex justify-center items-center h-full mt-2 pb-24">
-                                    <div
-                                        className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
-                                        role="status"
-                                    >
-                                        <span className="visually-hidden">JavaScript...</span>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </form>
