@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
+import { AppState } from '../../framework/store/rootReducer'
 import { IRegisterRequest } from '../../models/IRegisterRequest'
 import { registerActions } from './actions/RegisterActions'
 
@@ -13,8 +14,8 @@ type FormData = {
 
 export const Register: React.FunctionComponent<RegisterProps> = ({}) => {
     const dispatch = useDispatch()
-    const [isLoading, setIsLoading] = useState<boolean>(false)
-    const [error, setError] = useState<string | undefined>(undefined)
+    const isLoading: boolean = useSelector((state: AppState) => state.register.isLoading)
+    const error: string | undefined = useSelector((state: AppState) => state.register.error)
 
     const {
         handleSubmit,
